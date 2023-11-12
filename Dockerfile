@@ -24,8 +24,6 @@ WORKDIR /app
 COPY --from=build-angular /app/frontend/pantryVision/dist/pantry-pal ./static
 # Copy the built Spring Boot application
 COPY --from=build-spring /app/backend/pantryVision-core/target/pantryVision-core-0.0.1-SNAPSHOT.jar pantryPal.jar
-# Copy the Spring Boot application's static resources
-COPY --from=build-spring /app/backend/pantryVision-core/src/main/resources/static ./static
 EXPOSE 8080
 # Set the Spring profile
 ARG SPRING_PROFILE
