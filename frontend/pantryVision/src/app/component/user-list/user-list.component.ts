@@ -1,8 +1,8 @@
 import {Component} from "@angular/core";
 import {User} from "../../model/user";
-import {Subscription} from "rxjs";
+import {BehaviorSubject, first, Subscription, take} from "rxjs";
 import {UserService} from "../../service/user.service";
-
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-user-list',
@@ -12,26 +12,46 @@ import {UserService} from "../../service/user.service";
 export class UserListComponent {
   users: User[];
   private subscriptions: Subscription[] = [];
+  userName = new FormControl('');
 
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    this.subscriptions.push(
-      this.userService.getUserList().subscribe(data => {
-        this.users = data;
-      })
-    );
-
-    // Add more subscriptions as needed
-    // this.subscriptions.push(
-    //  this.anotherService.getSomething().subscribe(data => {
-    //    // Do something with data
-    //  })
-    // );
+    this.getUsers();
   }
 
   ngOnDestroy(): void {
-    // Unsubscribe from all subscriptions so we don't leave them hanging around
+    // We're closing the subscriptions right away but this is here just in case
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  getUsers() {
+    const sub = this.userService.getUserListFromDb()
+      .pipe(take(1))
+      .subscribe(users => {
+        this.users = users;
+      });
+    this.subscriptions.push(sub);
+  }
+  addUser() {
+    const newUser = new User();
+
+    if (this.userName.value) {
+      newUser.userName = this.userName.value;
+
+      const sub = this.userService.addUserToDb(newUser)
+        .pipe(take(1))
+        .subscribe({
+          next: (data) => {
+            console.log('User added successfully:', data);
+            this.getUsers();
+            this.userName.reset();
+        },
+        error: (error) => {
+          console.error('Error adding user:', error);
+        }
+      });
+      this.subscriptions.push(sub);
+    }
   }
 }
