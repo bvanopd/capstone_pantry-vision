@@ -27,4 +27,7 @@ COPY --from=build-spring /app/backend/pantryVision-core/target/pantryVision-core
 # Copy the Spring Boot application's static resources
 COPY --from=build-spring /app/backend/pantryVision-core/src/main/resources/static ./static
 EXPOSE 8080
+# Set the Spring profile
+ARG SPRING_PROFILE
+ENV SPRING_PROFILES_ACTIVE=${SPRING_PROFILE}
 ENTRYPOINT ["java", "-jar", "pantryPal.jar"]
