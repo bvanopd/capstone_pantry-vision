@@ -24,14 +24,14 @@ After these tools have been installed, make sure they are added to your Path env
 - NOTE Make sure your MYSQL80 service is running. Sometimes this can fail to start up on system restart.
 
 ### Start up the back end
-- Navigate to the */backend/pantry-vision-core/* directory and run ```mvn clean install```
+- Navigate to the */backend/pantryVision-core/* directory and run ```mvn clean install```
 - Run the Spring Boot application by running the *PantryVisionCoreApplication.java* file. If you're using IntelliJ it probably made a run configuration for this and you can just click the green start button. Otherwise it can be run with ```java -jar target/pantryVision-core-0.0.1-SNAPSHOT.jar```
     - NOTE that if you you run with this command, the jar is a snapshot of the application we created with mvn clean install
 - The back end should be running at this point. Check the terminal for errors.
 - NOTE The back end listens on localhost:8080, you can verify it's running by hitting an endpoint in your browser: ```http://localhost:8080/api/users/listAll.do```
 
 ### Start up the front end
-- Navigate to the */frontend/pantry-vision/* directory and ensure front end dependencies are installed by running ```npm install```
+- Navigate to the */frontend/pantryVision/* directory and ensure front end dependencies are installed by running ```npm install```
 - Start the front end by running ```npm start```
   - The ```npm start``` script is configured to fire up a local development server for Angular with a proxy to allow cross-origin resource sharing. Essentially it redirects HTTP requests to trick Angular into thinking it's on the same domain as the back end.
 - The application should be running now at ```http://localhost:4200/```
