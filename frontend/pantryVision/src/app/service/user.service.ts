@@ -15,4 +15,7 @@ export class UserService {
   addUserToDb(user: User): Observable<User> {
     return this.httpClient.post<User>("/api/users/add", user);
   }
+  getPrivate(): Observable<String> { 
+    return this.httpClient.get<String>("/api/private"); // Will return a nice message if authenticated
+  }
 }

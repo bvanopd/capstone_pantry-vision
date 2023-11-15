@@ -4,11 +4,12 @@ import { AuthModule } from '@auth0/auth0-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UserListComponent } from "./component/user-list/user-list.component";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ReactiveFormsModule } from "@angular/forms";
 import { UserMenuComponent } from './component/user-menu/user-menu.component';
+import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 
 @NgModule({
   declarations: [
@@ -19,10 +20,18 @@ import { UserMenuComponent } from './component/user-menu/user-menu.component';
   imports: [
     BrowserModule,
     AuthModule.forRoot({
+      // domain and clientId are not sensitive information
       domain: 'dev-vwqjm5rffdafsz1j.us.auth0.com',
       clientId: 'TWGpgZA7UyafhlAgJgMMoDjoIgkiUfAw',
       authorizationParams: {
-        redirect_uri: window.location.origin
+        redirect_uri: window.location.origin,
+        audience: "http://localhost:8080/api/", // audience identifier set up on Auth0 dashboard, and not called by Auth0
+      },
+      httpInterceptor: {
+        // Any calls to the backend which require authorization must have their paths listed in the allowedList
+        allowedList: [
+          "/api/private",
+        ]
       }
     }),
     AppRoutingModule,
@@ -31,7 +40,9 @@ import { UserMenuComponent } from './component/user-menu/user-menu.component';
     NgbModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

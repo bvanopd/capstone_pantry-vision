@@ -4,13 +4,13 @@ import com.pantryvisioncore.model.User;
 import com.pantryvisioncore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api", produces = MediaType.APPLICATION_JSON_VALUE)
-@CrossOrigin(origins = "*")
+@RequestMapping("api")
 public class UserController {
 
     @Autowired
@@ -25,6 +25,4 @@ public class UserController {
     @GetMapping("/private")
     public String privateEndpoint() { return "You are authenticated!"; }
 
-    @GetMapping("/user/amIAuthUser")
-    public String privateScopeEndpoint() { return "You are authenticated with scope user!"; }
 }

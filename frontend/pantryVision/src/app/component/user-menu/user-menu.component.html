@@ -1,4 +1,6 @@
 <div id="pantry-user-menu">
   <button *ngIf="!authenticated; else logOut" class="btn btn-primary" (click)="login()">Log in</button>
-  <ng-template #logOut><button class="btn btn-primary" (click)="logout()">Log out</button></ng-template>
+  <ng-template #logOut>
+    <button class="btn btn-primary" (click)="logout()">Log out</button>
+  </ng-template>
 </div>

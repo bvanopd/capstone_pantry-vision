@@ -14,10 +14,13 @@ export class UserListComponent {
   private subscriptions: Subscription[] = [];
   userName = new FormControl('');
 
+  message: String;
+
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     this.getUsers();
+    this.getBackendAuthString();
   }
 
   ngOnDestroy(): void {
@@ -53,5 +56,13 @@ export class UserListComponent {
       });
       this.subscriptions.push(sub);
     }
+  }
+  getBackendAuthString() {
+    const sub = this.userService.getPrivate()
+      .pipe(take(1))
+      .subscribe(str => {
+        this.message = str;
+      });
+    this.subscriptions.push(sub);
   }
 }

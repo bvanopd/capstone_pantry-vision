@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { Subscription, switchMap, take } from 'rxjs';
+import { Subscription, take } from 'rxjs';
+import {UserService} from "../../service/user.service";
 
 @Component({
   selector: 'app-user-menu',
@@ -9,9 +10,10 @@ import { Subscription, switchMap, take } from 'rxjs';
 })
 export class UserMenuComponent {
   constructor(private auth: AuthService) {}
+
   authenticated: boolean = false;
   private authSub: Subscription;
-
+  
   ngOnInit(): void {
     // The Auth0 SDK exposes an isAuthenticated$ observable on the AuthService class that allows you to check whether a user is authenticated or not.
     // -- Surely there's a better way to manage user auth status, but for now here we are :)
