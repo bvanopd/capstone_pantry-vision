@@ -23,15 +23,21 @@ export class UserMenuComponent {
   ngOnDestroy(): void {
     this.authSub.unsubscribe();
   }
-  
+
   login() {
     this.auth.loginWithRedirect();
   }
 
+  getUserProfile() {
+    this.auth.user$.subscribe(userProfile => {
+      console.log(userProfile);
+    });
+  }
+
   logout() {
-    this.auth.logout({ 
+    this.auth.logout({
       logoutParams: {
-        returnTo: document.location.origin 
+        returnTo: document.location.origin
       }
     });
   }

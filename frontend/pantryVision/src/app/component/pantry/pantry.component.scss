@@ -1,0 +1,33 @@
+#pantry {
+  max-width: 400px;
+  border-radius: 1rem;
+  margin-top: 2rem;
+  box-shadow: -5px 0 5px lightblue, 5px 0 5px lightblue;
+  padding: 5px;
+}
+h2 {
+  text-align: center;
+}
+
+#ingredientCount {
+  text-align: center;
+}
+
+.ingredient-group {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.pantry-ingredient {
+  display: flex;
+  margin-bottom: 10px;
+  margin-right: 8px;
+}
+
+.btn-not-available {
+  background-color: grey;
+}
+
+.btn-available {
+  background-color: green;
+}
