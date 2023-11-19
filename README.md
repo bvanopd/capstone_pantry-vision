@@ -16,7 +16,7 @@ To set up the project, you will need the following:
 
 After these tools have been installed, make sure they are added to your Path environment variables (User)
 
-> Additionally, you may consider intalling the Angular CLI (v16.2) globally to aid in development
+> Additionally, you may consider installing the Angular CLI (v16.2) globally to aid in development
 
 ### Create a local Repository
 - Fork this repo
