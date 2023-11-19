@@ -4,6 +4,7 @@ import com.pantryvisioncore.model.User;
 import com.pantryvisioncore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,8 @@ public class UserController {
     }
 
     @GetMapping("/private")
-    public String privateEndpoint() { return "You are authenticated!"; }
+    public ResponseEntity<String> privateEndpoint() {
+        return ResponseEntity.ok("{\"message\": \"You are authenticated!\" }");
+    }
 
 }
