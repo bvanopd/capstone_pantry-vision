@@ -10,12 +10,16 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ReactiveFormsModule } from "@angular/forms";
 import { UserMenuComponent } from './component/user-menu/user-menu.component';
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
+import { PantryComponent } from './component/pantry/pantry.component';
+import { HeaderComponent } from './component/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserListComponent,
-    UserMenuComponent
+    UserMenuComponent,
+    PantryComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

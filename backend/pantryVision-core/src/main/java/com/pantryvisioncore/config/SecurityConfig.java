@@ -25,7 +25,8 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/api/users/**").permitAll()
+                        .requestMatchers("/api/users/**", "/*").permitAll()
+                        .requestMatchers("/api/ingredients/**").permitAll()
                         .requestMatchers("/api/private").authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
