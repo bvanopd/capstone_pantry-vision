@@ -1,0 +1,24 @@
+<div id="pantry">
+  <h2 id="myPantry">My Pantry</h2>
+  <div ngbAccordion>
+    <div ngbAccordionItem *ngFor="let group of pantry.ingredientGroups" [id]="group.description">
+      <h2 ngbAccordionHeader>
+        <button ngbAccordionButton>{{ group.description }}</button>
+      </h2>
+      <div ngbAccordionCollapse>
+        <div ngbAccordionBody>
+          <ng-template>
+            <div class="ingredient-group">
+              <div class="pantry-ingredient" *ngFor="let ingredient of group.ingredients">
+                  <button type="button" class="btn btn-success btn-sm"
+                    [class.btn-not-available]="!pantry.isIngredientAvailable(ingredient)"
+                    [class.btn-available]="pantry.isIngredientAvailable(ingredient)"
+                    (click)="toggleIngredient(ingredient)">{{ ingredient.ingredientName }}</button>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

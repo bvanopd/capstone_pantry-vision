@@ -21,7 +21,7 @@ RUN mvn --file ./backend/pantryVision-core/pom.xml clean install -DskipTests
 FROM openjdk:17
 WORKDIR /app
 # Copy the built Angular application
-COPY --from=build-angular /app/frontend/pantryVision/dist/pantry-pal ./static
+COPY --from=build-angular /app/frontend/pantryVision/dist/pantry-pal /app/backend/pantryVision-core/src/main/resources/static
 # Copy the built Spring Boot application
 COPY --from=build-spring /app/backend/pantryVision-core/target/pantryVision-core-0.0.1-SNAPSHOT.jar pantryPal.jar
 EXPOSE 8080

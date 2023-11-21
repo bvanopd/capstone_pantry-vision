@@ -3,26 +3,29 @@ package com.pantryvisioncore.controller;
 import com.pantryvisioncore.model.User;
 import com.pantryvisioncore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("api")
 public class UserController {
 
     @Autowired
     private UserRepository userRepository;
 
     // Get all users
-    @GetMapping("/listAll.do")
+    @GetMapping("/users/listAll.do")
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-    // Add new user
-    @PostMapping("/add")
-    public User addUser(@RequestBody User user) {
-        return userRepository.save(user);
+    @GetMapping("/private")
+    public ResponseEntity<String> privateEndpoint() {
+        return ResponseEntity.ok("{\"message\": \"You are authenticated!\" }");
     }
+
 }
