@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { Ingredient } from "../../model/ingredient";
 import { Pantry } from "../../model/pantry";
 import { IngredientService } from "../../service/ingredient.service";
-import { lastValueFrom } from "rxjs";
+import { firstValueFrom, lastValueFrom, take } from "rxjs";
+import { AuthService } from '@auth0/auth0-angular';
+import { UserService } from 'src/app/service/user.service';
 
 
 @Component({
@@ -14,15 +16,39 @@ export class PantryComponent {
 
   public pantry: Pantry;
 
-  constructor(private ingredientService: IngredientService) {
-  }
+  constructor(private ingredientService: IngredientService, private userService: UserService, private auth: AuthService) { }
+
+  scheduleUpdate: boolean;
+  isLoading: boolean;
+  authenticated: boolean;
 
   ngOnInit() {
     this.initializePantry();
+    this.authorizeAndLoad();
+  }
+
+  private authorizeAndLoad() {
+    const loadingSub = this.auth.isLoading$.subscribe(loading => {
+      this.isLoading = loading;
+      if (!this.isLoading) {
+        loadingSub.unsubscribe();
+      }
+    });
+    const authSub = this.auth.isAuthenticated$.subscribe( async status => {
+      this.authenticated = status;
+      if (!this.isLoading) {
+        let pantryJSON = await firstValueFrom(this.userService.getUserPantry());
+        if (pantryJSON != null) {
+          this.pantry.listOfAvailableIngredients = JSON.parse(pantryJSON);
+        }
+        authSub.unsubscribe();
+      }
+    });
   }
 
   private initializePantry() {
     this.pantry = new Pantry();
+    this.scheduleUpdate = false;
     this.getIngredientGroups()
       .then(complete =>
         // Add ingredients from each list to the master list of ingredients
@@ -33,6 +59,9 @@ export class PantryComponent {
           this.pantry.ingredientAvailability.set(ingredient, false);
         });
       });
+
+    //Update pantry in DB every 20 seconds, if changes have been made (and user authenticated)
+    setInterval(() => this.savePantry(), 20000);
   }
 
   async getIngredientGroups() {
@@ -62,5 +91,14 @@ export class PantryComponent {
 
   public toggleIngredient(ingredient: Ingredient) {
     this.pantry.toggleAvailability(ingredient);
+    this.scheduleUpdate = true;
   }
+
+  public savePantry() {
+    if (this.scheduleUpdate && this.authenticated) {
+      this.scheduleUpdate = false;
+      this.userService.setUserPantry(this.pantry.listOfAvailableIngredients);
+    }
+  }
+
 }

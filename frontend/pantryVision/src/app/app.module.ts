@@ -35,6 +35,8 @@ import { HeaderComponent } from './component/header/header.component';
         // Any calls to the backend which require authorization must have their paths listed in the allowedList
         allowedList: [
           "/api/private",
+          "/api/user/getPantry.do",
+          "/api/user/setPantry.do",
         ]
       }
     }),

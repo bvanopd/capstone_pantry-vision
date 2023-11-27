@@ -1,11 +1,12 @@
 package com.pantryvisioncore.controller;
 
+import com.pantryvisioncore.model.Ingredient;
 import com.pantryvisioncore.model.User;
 import com.pantryvisioncore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +25,28 @@ public class UserController {
     }
 
     @GetMapping("/private")
-    public ResponseEntity<String> privateEndpoint() {
-        return ResponseEntity.ok("{\"message\": \"You are authenticated!\" }");
+    public ResponseEntity<String> privateEndpoint(@AuthenticationPrincipal Jwt jwt) {
+        return ResponseEntity.ok("{\"message\": \"" + String.format("Hello, %s!", jwt.getSubject()) + "\" }");
+    }
+
+    @GetMapping("/user/getPantry.do")
+    public ResponseEntity<String> getPantry(@AuthenticationPrincipal Jwt jwt) {
+        addUserIfNotFound(jwt.getSubject());
+        User user = userRepository.findByUserName(jwt.getSubject());
+        return ResponseEntity.ok(user.getPantryItems());
+    }
+
+    @PutMapping("/user/setPantry.do")
+    public ResponseEntity<String> setPantry(@AuthenticationPrincipal Jwt jwt, @RequestBody String ingredients ) {
+        addUserIfNotFound(jwt.getSubject());
+        userRepository.updateUserPantryByUserName(jwt.getSubject(), ingredients);
+        return ResponseEntity.ok("Success");
+    }
+
+    private void addUserIfNotFound(String userName) {
+        if(userRepository.findByUserName(userName) == null) {
+            userRepository.save(new User(userName));
+        }
     }
 
 }
