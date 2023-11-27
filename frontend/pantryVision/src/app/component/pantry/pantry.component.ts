@@ -5,6 +5,7 @@ import { IngredientService } from "../../service/ingredient.service";
 import { firstValueFrom, lastValueFrom, take } from "rxjs";
 import { AuthService } from '@auth0/auth0-angular';
 import { UserService } from 'src/app/service/user.service';
+import { IngredientGroup } from "../../model/ingredientGroup";
 
 
 @Component({
@@ -70,13 +71,14 @@ export class PantryComponent {
     this.pantry.ingredientGroups = await Promise.all(groups.map(async group => {
       // TODO make a separate group for "Pantry Essentials" because they don't have a group Id
       const ingredients = await lastValueFrom(this.ingredientService.getIngredientsByGroupId(group.ingredientGroupId));
+      const description = group.ingredientGroupDescription;
+      const groupIngredients = ingredients.map(ingredient => {
+        return new Ingredient(ingredient.ingredientName, ingredient.ingredientSpoonacularId, ingredient.ingredientGroupId, ingredient.ingredientEssentialFlg);
+      })
 
-      return {
-        description: group.ingredientGroupDescription,
-        ingredients: ingredients.map(ingredient => {
-          return new Ingredient(ingredient.ingredientName, ingredient.ingredientSpoonacularId, ingredient.ingredientGroupId, ingredient.ingredientEssentialFlg);
-        })
-      };
+      const ingredientGroup = new IngredientGroup(description, groupIngredients, 12);
+
+      return ingredientGroup;
     }));
   }
 
