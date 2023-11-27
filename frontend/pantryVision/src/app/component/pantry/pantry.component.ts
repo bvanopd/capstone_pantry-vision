@@ -88,9 +88,17 @@ export class PantryComponent {
 
   async populateIngredientMasterList() {
     // TODO get all ungrouped ingredients and also get them in the master list
+    const pantryEssentialsGroup = this.pantry.ingredientGroups.find(group => group.description === 'Pantry Essentials');
     this.pantry.ingredientGroups.forEach(group => {
       const ingredientsInGroup = group.ingredients;
       this.pantry.allIngredients.push(...ingredientsInGroup);
+
+      // Build the essentials group here since we're iterating through all of the groups
+      ingredientsInGroup.forEach(ingredient => {
+        if (ingredient.ingredientEssentialFlg) {
+          pantryEssentialsGroup?.ingredients.push(ingredient);
+        }
+      })
     });
   }
 
