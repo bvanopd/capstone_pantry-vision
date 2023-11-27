@@ -41,7 +41,7 @@ export class Pantry {
   }
 
   // Using spoonacularId, generates csv
-  get listOfAvailableIngredientById(): string {
+  getAvailableIngredientById(): string {
     let available: number[] = [];
     this.ingredientAvailability.forEach((isAvailable, ingredient) => {
       if (isAvailable) {
@@ -52,7 +52,7 @@ export class Pantry {
   }
 
   // Using csv string of spoonacularId 
-  set listOfAvailableIngredientsById(data :string) {
+  setAvailableIngredientsById(data :string) {
     let idArray: number[] = [];
     data.split(",").forEach((id) => {
       idArray.push(parseInt(id));

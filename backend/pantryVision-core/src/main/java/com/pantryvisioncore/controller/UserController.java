@@ -1,6 +1,5 @@
 package com.pantryvisioncore.controller;
 
-import com.pantryvisioncore.model.Ingredient;
 import com.pantryvisioncore.model.User;
 import com.pantryvisioncore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,6 @@ public class UserController {
     }
 
     @PutMapping("/user/setPantry.do")
-    @ResponseBody
     public ResponseEntity<String> setPantry(@AuthenticationPrincipal Jwt jwt, @RequestBody String ingredients ) {
         addUserIfNotFound(jwt.getSubject());
         userRepository.updateUserPantryByUserName(jwt.getSubject(), ingredients);
