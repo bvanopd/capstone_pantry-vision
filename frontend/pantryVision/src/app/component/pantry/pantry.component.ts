@@ -15,6 +15,7 @@ import { UserService } from 'src/app/service/user.service';
 export class PantryComponent {
 
   public pantry: Pantry;
+  plainTextToggle: Boolean = false;
 
   constructor(private ingredientService: IngredientService, private userService: UserService, private auth: AuthService) { }
 
@@ -77,6 +78,12 @@ export class PantryComponent {
         })
       };
     }));
+  }
+
+  getAvailableIngredientsArray(): Ingredient[] {
+    return Array.from(this.pantry.ingredientAvailability.entries())
+      .filter(([ingredient, isAvailable]) => isAvailable)
+      .map(([ingredient]) => ingredient);
   }
 
   async populateIngredientMasterList() {
