@@ -13,6 +13,7 @@ import { lastValueFrom } from "rxjs";
 export class PantryComponent {
 
   public pantry: Pantry;
+  plainTextToggle: Boolean = false;
 
   constructor(private ingredientService: IngredientService) {
   }
@@ -50,6 +51,12 @@ export class PantryComponent {
         })
       };
     }));
+  }
+
+  getAvailableIngredientsArray(): Ingredient[] {
+    return Array.from(this.pantry.ingredientAvailability.entries())
+      .filter(([ingredient, isAvailable]) => isAvailable)
+      .map(([ingredient]) => ingredient);
   }
 
   async populateIngredientMasterList() {

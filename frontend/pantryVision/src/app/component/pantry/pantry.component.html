@@ -1,24 +1,34 @@
 <div id="pantry">
+  <div *ngIf="pantry.numberOfAvailableIngredients">
+    <button class="btn btn-sm btn-link" (click)="plainTextToggle = !plainTextToggle">toggle plain text</button>
+  </div>
   <h2 id="myPantry">My Pantry</h2>
-  <div ngbAccordion>
-    <div ngbAccordionItem *ngFor="let group of pantry.ingredientGroups" [id]="group.description">
-      <h2 ngbAccordionHeader>
-        <button ngbAccordionButton>{{ group.description }}</button>
-      </h2>
-      <div ngbAccordionCollapse>
-        <div ngbAccordionBody>
-          <ng-template>
-            <div class="ingredient-group">
-              <div class="pantry-ingredient" *ngFor="let ingredient of group.ingredients">
-                  <button type="button" class="btn btn-success btn-sm"
-                    [class.btn-not-available]="!pantry.isIngredientAvailable(ingredient)"
-                    [class.btn-available]="pantry.isIngredientAvailable(ingredient)"
-                    (click)="toggleIngredient(ingredient)">{{ ingredient.ingredientName }}</button>
+  <div *ngIf="!plainTextToggle; else plainTextDisplay">
+    <div ngbAccordion>
+      <div ngbAccordionItem *ngFor="let group of pantry.ingredientGroups" [id]="group.description">
+        <h2 ngbAccordionHeader>
+          <button ngbAccordionButton>{{ group.description }}</button>
+        </h2>
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody>
+            <ng-template>
+              <div class="ingredient-group">
+                <div class="pantry-ingredient" *ngFor="let ingredient of group.ingredients">
+                    <button type="button" class="btn btn-success btn-sm"
+                      [class.btn-not-available]="!pantry.isIngredientAvailable(ingredient)"
+                      [class.btn-available]="pantry.isIngredientAvailable(ingredient)"
+                      (click)="toggleIngredient(ingredient)">{{ ingredient.ingredientName }}</button>
+                </div>
               </div>
-            </div>
-          </ng-template>
+            </ng-template>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+  <ng-template class="mx-2 my-2" #plainTextDisplay>
+    <div class="fw-bold text-uppercase">In stock:</div>
+    <span *ngFor="let ingredient of getAvailableIngredientsArray()">{{ingredient.ingredientName}}, </span>
+  </ng-template>
 </div>
