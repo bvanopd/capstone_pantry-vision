@@ -53,7 +53,7 @@ export class Pantry {
     return available.toString();
   }
 
-  // Using csv string of spoonacularId 
+  // Using csv string of spoonacularId
   setAvailableIngredientsById(data :string) {
     let idArray: number[] = [];
     data.split(",").forEach((id) => {
@@ -65,4 +65,15 @@ export class Pantry {
       }
     });
   }
+  getCountOfAvailableIngredientsInGroup(group: IngredientGroup): number {
+    let count = 0;
+    group.ingredients.forEach(ingredient => {
+      if (this.ingredientAvailability.get(ingredient)) {
+        count++;
+      }
+    });
+    return count;
+  }
+
+
 }

@@ -4,10 +4,13 @@
   </div>
   <h2 id="myPantry">My Pantry</h2>
   <div *ngIf="!plainTextToggle; else plainTextDisplay">
+    <p>Total Ingredients: {{ pantry.numberOfAvailableIngredients }}</p>
     <div ngbAccordion>
       <div ngbAccordionItem *ngFor="let group of pantry.ingredientGroups" [id]="group.description">
         <h2 ngbAccordionHeader>
-          <button ngbAccordionButton>{{ group.description }}</button>
+          <button ngbAccordionButton>
+            {{ group.description }} - {{ pantry.getCountOfAvailableIngredientsInGroup(group) }}/{{ group.ingredients.length }}
+          </button>
         </h2>
         <div ngbAccordionCollapse>
           <div ngbAccordionBody>
