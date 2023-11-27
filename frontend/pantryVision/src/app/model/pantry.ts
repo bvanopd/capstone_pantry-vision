@@ -29,20 +29,38 @@ export class Pantry {
     return count;
   }
 
+  // Not used by backend, could be useful for frontend
   get listOfAvailableIngredients(): Ingredient[] {
-    let available = new Array<Ingredient>;
+    let available: Ingredient[] = [];
     this.ingredientAvailability.forEach((isAvailable, ingredient) => {
       if (isAvailable) {
         available.push(ingredient);
-
       }
     });
     return available;
   }
 
-  set listOfAvailableIngredients(ingredients: Ingredient[]) {
-    ingredients.forEach( (ingredient) => {
-      this.ingredientAvailability.set(ingredient, true);
+  // Using spoonacularId, generates csv
+  get listOfAvailableIngredientById(): string {
+    let available: number[] = [];
+    this.ingredientAvailability.forEach((isAvailable, ingredient) => {
+      if (isAvailable) {
+        available.push(ingredient.ingredientSpoonacularId);
+      }
+    });
+    return available.toString();
+  }
+
+  // Using csv string of spoonacularId 
+  set listOfAvailableIngredientsById(data :string) {
+    let idArray: number[] = [];
+    data.split(",").forEach((id) => {
+      idArray.push(parseInt(id));
+    });
+    this.allIngredients.forEach( (ingredient) => {
+      if (idArray.includes(ingredient.ingredientSpoonacularId)) {
+        this.ingredientAvailability.set(ingredient, true);
+      }
     });
   }
 }
