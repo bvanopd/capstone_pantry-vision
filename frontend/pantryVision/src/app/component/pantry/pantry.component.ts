@@ -36,11 +36,9 @@ export class PantryComponent {
     });
     const authSub = this.auth.isAuthenticated$.subscribe( async status => {
       this.authenticated = status;
-      if (!this.isLoading) {
-        let pantryJSON = await firstValueFrom(this.userService.getUserPantry());
-        if (pantryJSON != null) {
-          this.pantry.listOfAvailableIngredients = JSON.parse(pantryJSON);
-        }
+      if (!this.isLoading && this.authenticated) {
+        let pantryObj = await firstValueFrom(this.userService.getUserPantry());
+        this.pantry.listOfAvailableIngredientsById = pantryObj.pantry;
         authSub.unsubscribe();
       }
     });
@@ -97,7 +95,8 @@ export class PantryComponent {
   public savePantry() {
     if (this.scheduleUpdate && this.authenticated) {
       this.scheduleUpdate = false;
-      this.userService.setUserPantry(this.pantry.listOfAvailableIngredients);
+      console.log(this.pantry.listOfAvailableIngredientsById);
+      this.userService.setUserPantry(this.pantry.listOfAvailableIngredientsById);
     }
   }
 

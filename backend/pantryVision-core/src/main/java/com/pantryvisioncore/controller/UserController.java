@@ -26,21 +26,22 @@ public class UserController {
 
     @GetMapping("/private")
     public ResponseEntity<String> privateEndpoint(@AuthenticationPrincipal Jwt jwt) {
-        return ResponseEntity.ok("{\"message\": \"" + String.format("Hello, %s!", jwt.getSubject()) + "\" }");
+        return ResponseEntity.ok("{\"message\": \"" + String.format("Hello, %s!", jwt.getSubject()) + "\"}");
     }
 
     @GetMapping("/user/getPantry.do")
     public ResponseEntity<String> getPantry(@AuthenticationPrincipal Jwt jwt) {
         addUserIfNotFound(jwt.getSubject());
         User user = userRepository.findByUserName(jwt.getSubject());
-        return ResponseEntity.ok(user.getPantryItems());
+        return ResponseEntity.ok("{\"pantry\": \"" + user.getPantryItems() + "\"}");
     }
 
     @PutMapping("/user/setPantry.do")
+    @ResponseBody
     public ResponseEntity<String> setPantry(@AuthenticationPrincipal Jwt jwt, @RequestBody String ingredients ) {
         addUserIfNotFound(jwt.getSubject());
         userRepository.updateUserPantryByUserName(jwt.getSubject(), ingredients);
-        return ResponseEntity.ok("Success");
+        return ResponseEntity.ok("{\"message\": \"" + ingredients +"\"}");
     }
 
     private void addUserIfNotFound(String userName) {

@@ -14,10 +14,10 @@ export class UserService {
   getUserListFromDb(): Observable<User[]> {
     return this.httpClient.get<User[]>("/api/users/listAll.do");
   }
-  getUserPantry(): Observable<string> {
+  getUserPantry(): Observable<any> {
     return this.httpClient.get<string>("/api/user/getPantry.do");
   }
-  setUserPantry(pantry: Ingredient[]): void {
+  setUserPantry(pantry: string): void {
     this.httpClient.put("/api/user/setPantry.do", pantry).subscribe(() => console.log("pantry saved"));
   }
   getPrivate(): Observable<string> {
