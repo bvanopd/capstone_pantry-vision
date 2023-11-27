@@ -27,7 +27,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/users/**", "/*").permitAll()
                         .requestMatchers("/api/ingredients/**").permitAll()
-                        .requestMatchers("/api/private").authenticated()
+                        .requestMatchers("/api/private", "/api/user/**").authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(withDefaults())
