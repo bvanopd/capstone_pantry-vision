@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
+import { UserService } from "../../service/user.service";
 import { AuthService } from '@auth0/auth0-angular';
-import { Subscription, take } from 'rxjs';
-import {UserService} from "../../service/user.service";
 
 @Component({
   selector: 'app-user-menu',
@@ -9,37 +8,33 @@ import {UserService} from "../../service/user.service";
   styleUrls: ['./user-menu.component.scss']
 })
 export class UserMenuComponent {
-  constructor(private auth: AuthService) {}
+  constructor(private userService: UserService, private auth: AuthService) {}
+  authenticated: boolean;
+  isLoading: boolean;
+  user$ = this.auth.user$;
 
-  authenticated: boolean = false;
-  private authSub: Subscription;
-  
   ngOnInit(): void {
-    // The Auth0 SDK exposes an isAuthenticated$ observable on the AuthService class that allows you to check whether a user is authenticated or not.
-    // -- Surely there's a better way to manage user auth status, but for now here we are :)
-    this.authSub = this.auth.isAuthenticated$.pipe(take(1)).subscribe(value => this.authenticated = value);
-  }
-
-  ngOnDestroy(): void {
-    this.authSub.unsubscribe();
-  }
-
-  login() {
-    this.auth.loginWithRedirect();
-  }
-
-  getUserProfile() {
-    this.auth.user$.subscribe(userProfile => {
-      console.log(userProfile);
+    const loadingSub = this.auth.isLoading$.subscribe(loading => {
+      this.isLoading = loading;
+      if (!this.isLoading) {
+        loadingSub.unsubscribe();
+      }
+    });
+    const authSub = this.auth.isAuthenticated$.subscribe(status => {
+      this.authenticated = status;
+      if (!this.isLoading) {
+        authSub.unsubscribe();
+      }
     });
   }
-
-  logout() {
+  login(): void {
+    this.auth.loginWithRedirect();
+  }
+  logout(): void {
     this.auth.logout({
       logoutParams: {
         returnTo: document.location.origin
       }
     });
   }
-
 }

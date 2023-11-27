@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import {BehaviorSubject, Observable} from "rxjs";
+import { Observable } from "rxjs";
 import { User } from "../model/user";
+import { Ingredient } from '../model/ingredient';
 
 
 @Injectable({
@@ -9,13 +10,17 @@ import { User } from "../model/user";
 })
 export class UserService {
   constructor(private httpClient: HttpClient) { }
+
   getUserListFromDb(): Observable<User[]> {
     return this.httpClient.get<User[]>("/api/users/listAll.do");
   }
-  addUserToDb(user: User): Observable<User> {
-    return this.httpClient.post<User>("/api/users/add", user);
+  getUserPantry(): Observable<string> {
+    return this.httpClient.get<string>("/api/user/getPantry.do");
   }
-  getPrivate(): Observable<String> { 
-    return this.httpClient.get<String>("/api/private"); // Will return a nice message if authenticated
+  setUserPantry(pantry: Ingredient[]): void {
+    this.httpClient.put("/api/user/setPantry.do", pantry).subscribe(() => console.log("pantry saved"));
+  }
+  getPrivate(): Observable<string> {
+    return this.httpClient.get<string>("/api/private");
   }
 }

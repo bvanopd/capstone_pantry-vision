@@ -36,27 +36,6 @@ export class UserListComponent {
       });
     this.subscriptions.push(sub);
   }
-  addUser() {
-    const newUser = new User();
-
-    if (this.userName.value) {
-      newUser.userName = this.userName.value;
-
-      const sub = this.userService.addUserToDb(newUser)
-        .pipe(take(1))
-        .subscribe({
-          next: (data) => {
-            console.log('User added successfully:', data);
-            this.getUsers();
-            this.userName.reset();
-        },
-        error: (error) => {
-          console.error('Error adding user:', error);
-        }
-      });
-      this.subscriptions.push(sub);
-    }
-  }
   getBackendAuthString() {
     const sub = this.userService.getPrivate()
       .pipe(take(1))
