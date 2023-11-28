@@ -7,7 +7,7 @@ RUN npm cache clean --force
 RUN npm install
 ENV PATH /root/.npm-global/bin:$PATH
 COPY ./frontend/pantryVision ./frontend/pantryVision
-RUN npm --prefix ./frontend/pantryVision run build --output-path=./frontend/pantryVision/dist
+RUN npm --prefix ./frontend/pantryVision run build --output-path=./backend/pantryVision-core/src/main/resources/static
 
 # Stage 2: Build the Spring Boot application
 FROM maven:3.8.1-openjdk-17 AS build-spring
@@ -20,8 +20,6 @@ RUN mvn --file ./backend/pantryVision-core/pom.xml clean install -DskipTests
 # Stage 3: Run the Spring Boot application with the Angular static files
 FROM openjdk:17
 WORKDIR /app
-# Copy the built Angular application
-COPY --from=build-angular /app/frontend/pantryVision/dist/pantry-pal /app/backend/pantryVision-core/src/main/resources/static
 # Copy the built Spring Boot application
 COPY --from=build-spring /app/backend/pantryVision-core/target/pantryVision-core-0.0.1-SNAPSHOT.jar pantryPal.jar
 EXPOSE 8080
