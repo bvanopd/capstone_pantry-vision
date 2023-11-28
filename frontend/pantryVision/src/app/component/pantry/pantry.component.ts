@@ -26,39 +26,34 @@ export class PantryComponent {
 
   ngOnInit() {
     this.initializePantry();
-    this.authorizeAndLoad();
   }
 
-  private authorizeAndLoad() {
-    const loadingSub = this.auth.isLoading$.subscribe(loading => {
-      this.isLoading = loading;
-      if (!this.isLoading) {
-        loadingSub.unsubscribe();
-      }
-    });
-    const authSub = this.auth.isAuthenticated$.subscribe( async status => {
-      this.authenticated = status;
-      if (!this.isLoading && this.authenticated) {
-        let pantryObj = await firstValueFrom(this.userService.getUserPantry());
-        this.pantry.setAvailableIngredientsById(pantryObj.pantry);
-        authSub.unsubscribe();
-      }
+  private async authorizeAndLoad(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.auth.isLoading$.subscribe(loading => {
+        this.isLoading = loading;
+      });
+      let authSub = this.auth.isAuthenticated$.subscribe(async status => {
+        this.authenticated = status;
+        if (!this.isLoading && this.authenticated) {
+          let pantryObj = await firstValueFrom(this.userService.getUserPantry());
+          this.pantry.setAvailableIngredientsById(pantryObj.pantry);
+          authSub.unsubscribe();
+          resolve();
+        }
+      });
     });
   }
 
-  private initializePantry() {
+  private async initializePantry() {
     this.pantry = new Pantry();
     this.scheduleUpdate = false;
-    this.getIngredientGroups()
-      .then(complete =>
-        // Add ingredients from each list to the master list of ingredients
-        this.populateIngredientMasterList())
-      .then(complete => {
-        // Initialize the availability of each ingredient to false
-        this.pantry.allIngredients.forEach(ingredient => {
-          this.pantry.ingredientAvailability.set(ingredient, false);
-        });
-      });
+    await this.getIngredientGroups();
+    await this.populateIngredientMasterList();
+    this.pantry.allIngredients.forEach(ingredient => {
+      this.pantry.ingredientAvailability.set(ingredient, false);
+    });
+    await this.authorizeAndLoad();
 
     //Update pantry in DB every 20 seconds, if changes have been made (and user authenticated)
     setInterval(() => this.savePantry(), 20000);
@@ -77,7 +72,6 @@ export class PantryComponent {
       })
 
       const ingredientGroup = new IngredientGroup(description, groupIngredients, 12);
-
       return ingredientGroup;
     }));
   }
