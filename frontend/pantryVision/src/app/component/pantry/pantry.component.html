@@ -16,7 +16,7 @@
           <div ngbAccordionBody>
             <ng-template>
               <div class="ingredient-group">
-                <div class="pantry-ingredient" *ngFor="let ingredient of group.ingredients">
+                <div class="pantry-ingredient" *ngFor="let ingredient of group.ingredients | slice:0:group.ingredientsToShow">
                     <button type="button" class="btn btn-success btn-sm"
                       [class.btn-not-available]="!pantry.isIngredientAvailable(ingredient)"
                       [class.btn-available]="pantry.isIngredientAvailable(ingredient)"
