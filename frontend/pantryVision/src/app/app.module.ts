@@ -27,6 +27,8 @@ import { HeaderComponent } from './component/header/header.component';
       // domain and clientId are not sensitive information
       domain: 'dev-vwqjm5rffdafsz1j.us.auth0.com',
       clientId: 'TWGpgZA7UyafhlAgJgMMoDjoIgkiUfAw',
+      useRefreshTokens: true,
+      cacheLocation: 'localstorage',
       authorizationParams: {
         redirect_uri: window.location.origin,
         audience: "http://localhost:8080/api/", // audience identifier set up on Auth0 dashboard, and not called by Auth0
