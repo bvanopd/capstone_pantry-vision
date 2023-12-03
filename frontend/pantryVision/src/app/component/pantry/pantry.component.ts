@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Ingredient } from "../../model/ingredient";
 import { Pantry } from "../../model/pantry";
 import { IngredientService } from "../../service/ingredient.service";
@@ -55,8 +55,7 @@ export class PantryComponent {
     });
     await this.authorizeAndLoad();
 
-    //Update pantry in DB every 20 seconds, if changes have been made (and user authenticated)
-    setInterval(() => this.savePantry(), 20000);
+    setInterval(() => this.savePantry(), 5000);
   }
 
   async getIngredientGroups() {
@@ -106,7 +105,6 @@ export class PantryComponent {
   public savePantry() {
     if (this.scheduleUpdate && this.authenticated) {
       this.scheduleUpdate = false;
-      console.log(this.pantry.getAvailableIngredientById());
       this.userService.setUserPantry(this.pantry.getAvailableIngredientById());
     }
   }
