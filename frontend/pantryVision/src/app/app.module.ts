@@ -14,6 +14,8 @@ import { PantryComponent } from './component/pantry/pantry.component';
 import { HeaderComponent } from './component/header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTabsModule } from '@angular/material/tabs';
+import { KitchenComponent } from './kitchen/kitchen.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     UserListComponent,
     UserMenuComponent,
     PantryComponent,
-    HeaderComponent
+    HeaderComponent,
+    KitchenComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     NgbModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTabsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
