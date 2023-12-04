@@ -20,7 +20,9 @@ export class PantryComponent {
 
   constructor(private ingredientService: IngredientService, private userService: UserService, private auth: AuthService) { }
 
+  pantryUpdated: boolean = true;
   scheduleUpdate: boolean;
+
   isLoading: boolean = true;
   authenticated: boolean;
 
@@ -100,12 +102,21 @@ export class PantryComponent {
   public toggleIngredient(ingredient: Ingredient) {
     this.pantry.toggleAvailability(ingredient);
     this.scheduleUpdate = true;
+    this.pantryUpdated = false;
   }
 
   public savePantry() {
     if (this.scheduleUpdate && this.authenticated) {
       this.scheduleUpdate = false;
-      this.userService.setUserPantry(this.pantry.getAvailableIngredientById());
+      this.userService.setUserPantry(this.pantry.getAvailableIngredientById()).subscribe(
+        (response) => {
+          if (response.message) {
+            this.pantryUpdated = true;
+          } else {
+            this.scheduleUpdate = true;
+          }
+        }
+      );
     }
   }
 

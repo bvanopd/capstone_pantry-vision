@@ -5,6 +5,24 @@
   box-shadow: -5px 0 5px lightblue, 5px 0 5px lightblue;
   padding: 5px;
 }
+
+#pantryInfo {
+  display: flex;
+  justify-content: space-between;
+}
+
+.saveProgress {
+  width: 3em;
+  height: 1em;
+  margin: 0;
+  color: gray;
+}
+
+// credit for rounded progress bar https://stackoverflow.com/questions/61888989/is-it-possible-to-make-a-mat-progress-bar-with-rounded-corners
+mat-progress-bar.saveProgress {
+  padding-top: 2em;
+}
+
 h2 {
   text-align: center;
 }
