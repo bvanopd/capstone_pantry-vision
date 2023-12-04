@@ -1,8 +1,8 @@
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { Ingredient } from "../../model/ingredient";
 import { Pantry } from "../../model/pantry";
 import { IngredientService } from "../../service/ingredient.service";
-import { firstValueFrom, lastValueFrom, take } from "rxjs";
+import { firstValueFrom, lastValueFrom } from "rxjs";
 import { AuthService } from '@auth0/auth0-angular';
 import { UserService } from 'src/app/service/user.service';
 import { IngredientGroup } from "../../model/ingredientGroup";
@@ -21,7 +21,7 @@ export class PantryComponent {
   constructor(private ingredientService: IngredientService, private userService: UserService, private auth: AuthService) { }
 
   scheduleUpdate: boolean;
-  isLoading: boolean;
+  isLoading: boolean = true;
   authenticated: boolean;
 
   ngOnInit() {
