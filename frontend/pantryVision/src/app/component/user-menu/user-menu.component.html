@@ -1,7 +1,7 @@
 <p id="user-welcome" *ngIf="user$ | async as user">Welcome, {{ user.name }}</p>
 <div id="pantry-user-menu">
-  <button *ngIf="!authenticated; else logOut" class="btn btn-primary" (click)="login()">Log in</button>
+  <button mat-raised-button color="primary" *ngIf="!authenticated; else logOut" (click)="login()">Log in</button>
   <ng-template #logOut>
-    <button class="btn btn-primary" (click)="logout()">Log out</button>
+    <button mat-raised-button color="primary" (click)="logout()">Log out</button>
   </ng-template>
 </div>

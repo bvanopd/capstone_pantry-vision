@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { Ingredient } from "../../model/ingredient";
 import { Pantry } from "../../model/pantry";
 import { IngredientService } from "../../service/ingredient.service";
-import { firstValueFrom, lastValueFrom } from "rxjs";
+import { firstValueFrom, lastValueFrom, Subscription } from "rxjs";
 import { AuthService } from '@auth0/auth0-angular';
 import { UserService } from 'src/app/service/user.service';
 import { IngredientGroup } from "../../model/ingredientGroup";
+import { PantryService } from 'src/app/service/pantry.service';
 
 
 @Component({
@@ -16,9 +17,10 @@ import { IngredientGroup } from "../../model/ingredientGroup";
 export class PantryComponent {
 
   public pantry: Pantry;
+  pantrySub: Subscription;
   plainTextToggle: Boolean = false;
 
-  constructor(private ingredientService: IngredientService, private userService: UserService, private auth: AuthService) { }
+  constructor(private ingredientService: IngredientService, private userService: UserService, private pantryService: PantryService, private auth: AuthService) { }
 
   pantryUpdated: boolean = true;
   scheduleUpdate: boolean;
@@ -28,6 +30,15 @@ export class PantryComponent {
 
   ngOnInit() {
     this.initializePantry();
+    this.updatePantryService();
+    this.pantrySub = this.pantryService.currentPantry.subscribe(pantry => {
+      this.pantry = pantry;
+      this.setFlagsToUnsaved();
+    });
+  }
+
+  ngOnDestroy() {
+    this.pantrySub.unsubscribe();
   }
 
   private async authorizeAndLoad(): Promise<void> {
@@ -57,7 +68,7 @@ export class PantryComponent {
     });
     await this.authorizeAndLoad();
 
-    setInterval(() => this.savePantry(), 5000);
+    setInterval(() => this.savePantry(), 4000);
   }
 
   async getIngredientGroups() {
@@ -75,12 +86,6 @@ export class PantryComponent {
       const ingredientGroup = new IngredientGroup(description, groupIngredients, 12);
       return ingredientGroup;
     }));
-  }
-
-  getAvailableIngredientsArray(): Ingredient[] {
-    return Array.from(this.pantry.ingredientAvailability.entries())
-      .filter(([ingredient, isAvailable]) => isAvailable)
-      .map(([ingredient]) => ingredient);
   }
 
   async populateIngredientMasterList() {
@@ -101,8 +106,17 @@ export class PantryComponent {
 
   public toggleIngredient(ingredient: Ingredient) {
     this.pantry.toggleAvailability(ingredient);
+    this.updatePantryService;
+    this.setFlagsToUnsaved();
+  }
+
+  public setFlagsToUnsaved() {
     this.scheduleUpdate = true;
     this.pantryUpdated = false;
+  }
+
+  private updatePantryService() {
+    this.pantryService.updatePantryService(this.pantry);
   }
 
   public savePantry() {
