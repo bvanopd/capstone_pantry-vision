@@ -16,7 +16,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { KitchenComponent } from './kitchen/kitchen.component';
+import { MatButtonModule } from '@angular/material/button';
+import { KitchenComponent } from './component/kitchen/kitchen.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { KitchenComponent } from './kitchen/kitchen.component';
     BrowserAnimationsModule,
     MatProgressSpinnerModule,
     MatTabsModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatButtonModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
