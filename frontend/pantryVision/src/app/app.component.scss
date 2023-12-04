@@ -2,10 +2,11 @@
   margin: 20px;
 }
 
-#testArea {
-  margin-top: 50px;
+main {
+  display: flex;
+  gap: 1em;
+}
 
-  h2 {
-    background-color: lightblue;
-  }
+app-kitchen {
+  width: 100%;
 }
