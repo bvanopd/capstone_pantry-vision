@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { Observable, catchError} from "rxjs";
 import { User } from "../model/user";
-import { Ingredient } from '../model/ingredient';
 
 
 @Injectable({
@@ -17,12 +16,11 @@ export class UserService {
   getUserPantry(): Observable<any> {
     return this.httpClient.get<string>("/api/user/getPantry.do");
   }
-  setUserPantry(pantry: string): void {
-    if (pantry === '') {
-      this.httpClient.put("/api/user/setPantry.do", []).subscribe(() => console.log("pantry saved"));
-    } else {
-      this.httpClient.put("/api/user/setPantry.do", pantry).subscribe(() => console.log("pantry saved"));
-    }
+  setUserPantry(pantry: string): Observable<any> {
+    return this.httpClient
+      .put("/api/user/setPantry.do", pantry === '' ? [] : pantry)
+      .pipe(catchError((error) => { return error; })
+    );
   }
   getPrivate(): Observable<string> {
     return this.httpClient.get<string>("/api/private");
