@@ -11,6 +11,11 @@
   justify-content: space-between;
 }
 
+#ingredientGroupAccordionList {
+  overflow-y: auto;
+  max-height: 77vh;
+}
+
 .saveProgress {
   width: 3em;
   height: 1em;
@@ -18,7 +23,6 @@
   color: gray;
 }
 
-// credit for rounded progress bar https://stackoverflow.com/questions/61888989/is-it-possible-to-make-a-mat-progress-bar-with-rounded-corners
 mat-progress-bar.saveProgress {
   padding-top: 2em;
 }

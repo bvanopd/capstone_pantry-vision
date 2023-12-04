@@ -1,13 +1,7 @@
 <div id="pantry">
-  
-  <!--
-  <div *ngIf="pantry.numberOfAvailableIngredients">
-    <button class="btn btn-sm btn-link" (click)="plainTextToggle = !plainTextToggle">toggle plain text</button>
-  </div>
-  -->
   <h2 id="myPantry">My Pantry</h2>
   <mat-progress-spinner mode="indeterminate" diameter="100" *ngIf="isLoading"></mat-progress-spinner>
-  <div *ngIf="!plainTextToggle; else plainTextDisplay">
+  <div>
     <div id="pantryInfo">
       <p>Total Ingredients: {{ pantry.numberOfAvailableIngredients }}</p>
       <ng-container *ngIf="!isLoading && authenticated">
@@ -16,7 +10,7 @@
         <ng-template #saving><mat-progress-bar mode="buffer" class="saveProgress"></mat-progress-bar></ng-template>
       </ng-container>
     </div>
-    <div ngbAccordion>
+    <div ngbAccordion id="ingredientGroupAccordionList">
       <div ngbAccordionItem *ngFor="let group of pantry.ingredientGroups" [id]="group.description">
         <h2 ngbAccordionHeader>
           <button ngbAccordionButton>
@@ -44,9 +38,4 @@
       </div>
     </div>
   </div>
-
-  <ng-template class="mx-2 my-2" #plainTextDisplay>
-    <div class="fw-bold text-uppercase">In stock:</div>
-    <span *ngFor="let ingredient of getAvailableIngredientsArray()">{{ingredient.ingredientName}}, </span>
-  </ng-template>
 </div>
