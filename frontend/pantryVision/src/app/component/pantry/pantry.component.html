@@ -3,6 +3,7 @@
     <button class="btn btn-sm btn-link" (click)="plainTextToggle = !plainTextToggle">toggle plain text</button>
   </div>
   <h2 id="myPantry">My Pantry</h2>
+  <mat-progress-spinner mode="indeterminate" diameter="100" *ngIf="isLoading"></mat-progress-spinner>
   <div *ngIf="!plainTextToggle; else plainTextDisplay">
     <p>Total Ingredients: {{ pantry.numberOfAvailableIngredients }}</p>
     <div ngbAccordion>

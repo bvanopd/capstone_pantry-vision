@@ -12,6 +12,8 @@ import { UserMenuComponent } from './component/user-menu/user-menu.component';
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { PantryComponent } from './component/pantry/pantry.component';
 import { HeaderComponent } from './component/header/header.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { HeaderComponent } from './component/header/header.component';
     CommonModule,
     HttpClientModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },

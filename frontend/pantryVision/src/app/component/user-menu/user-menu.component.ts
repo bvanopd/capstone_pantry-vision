@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { UserService } from "../../service/user.service";
 import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
@@ -8,7 +7,7 @@ import { AuthService } from '@auth0/auth0-angular';
   styleUrls: ['./user-menu.component.scss']
 })
 export class UserMenuComponent {
-  constructor(private userService: UserService, private auth: AuthService) {}
+  constructor(private auth: AuthService) {}
   authenticated: boolean;
   isLoading: boolean;
   user$ = this.auth.user$;
