@@ -19,6 +19,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { KitchenComponent } from './component/kitchen/kitchen.component';
 import { AngularSplitModule } from "angular-split";
+import { RecipeComponent } from './component/recipe/recipe/recipe.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { AngularSplitModule } from "angular-split";
     UserMenuComponent,
     PantryComponent,
     HeaderComponent,
-    KitchenComponent
+    KitchenComponent,
+    RecipeComponent
   ],
   imports: [
     BrowserModule,
