@@ -1,7 +1,15 @@
 <div id="pageWrapper">
   <app-header></app-header>
   <main>
-    <app-pantry></app-pantry>
-    <app-kitchen></app-kitchen>
+    <div id="app-split">
+      <as-split direction="horizontal" gutterSize="20">
+        <as-split-area [size]="30">
+          <app-pantry></app-pantry>
+        </as-split-area>
+        <as-split-area [size]="70">
+          <app-kitchen></app-kitchen>
+        </as-split-area>
+      </as-split>
+    </div>
   </main>
 </div>

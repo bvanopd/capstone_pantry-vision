@@ -1,12 +1,24 @@
 #pageWrapper {
   margin: 20px;
+  background-color: white;
+  border-radius: 1rem;
+  padding: 1rem;
+
 }
 
 main {
-  height: 87vh;
+  width: 100%;
   display: flex;
   gap: 1em;
   justify-content: space-around;
+}
+
+#app-split {
+  width:100%;
+}
+
+as-split-area {
+  overflow-y: hidden !important;
 }
 
 app-kitchen {
