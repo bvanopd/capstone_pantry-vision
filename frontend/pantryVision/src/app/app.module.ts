@@ -51,7 +51,7 @@ import { MatListModule } from '@angular/material/list';
           "/api/user/getPantry.do",
           "/api/user/setPantry.do",
           "/api/user/getUserId.do",
-          "/api/groceries/getAll.do"
+          "/api/groceryList/getAll.do"
         ]
       }
     }),

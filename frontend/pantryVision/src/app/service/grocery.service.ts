@@ -10,16 +10,12 @@ export class GroceryService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getGroceryListsByUserId(userId: number): Observable<GroceryList[]> {
-    return this.httpClient.get<GroceryList[]>(`/api/groceries/groceryListsByUserId.do?userId=${userId}`);
-  }
-
   getGroceryListById(groceryListId: number): Observable<GroceryList[]> {
-    return this.httpClient.get<GroceryList[]>(`/api/groceries/groceryListById.do?groceryListId=${groceryListId}`);
+    return this.httpClient.get<GroceryList[]>(`/api/groceryList/groceryListById.do?groceryListId=${groceryListId}`);
   }
 
   getGroceryLists(): Observable<any> {
-    return this.httpClient.get<string>("/api/groceries/getAll.do");
+    return this.httpClient.get<string>("/api/groceryList/getAll.do");
   }
 
 }
