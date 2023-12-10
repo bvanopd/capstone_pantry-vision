@@ -18,7 +18,6 @@ public class GroceryList {
 
     @ManyToOne
     @JoinColumn(name = "grocery_list_user_id", nullable = false)
-    // @JoinColumn(name = "grocery_list_user_id", nullable = false)
     private User getUserId() {
       return null;
     };

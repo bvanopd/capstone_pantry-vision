@@ -19,9 +19,6 @@ export class UserService {
   getUserPantry(): Observable<any> {
     return this.httpClient.get<string>("/api/user/getPantry.do");
   }
-  getUserPantry2(): Observable<any> {
-    return this.httpClient.get<string>("/api/user/getPantry2.do");
-  }
   setUserPantry(pantry: string): Observable<any> {
     return this.httpClient
       .put("/api/user/setPantry.do", pantry === '' ? [] : pantry)
