@@ -21,6 +21,8 @@ public class GroceryList {
     private User getUserId() {
       return null;
     };
+    @Column(name = "grocery_list_user_id", nullable = false)
+    private long userId;
 
     public GroceryList() {
     }
@@ -49,4 +51,12 @@ public class GroceryList {
     }
 
     public String getGroceryListItems() { return this.groceryListIngredients; }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
 }
