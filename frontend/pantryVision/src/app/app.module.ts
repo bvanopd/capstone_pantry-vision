@@ -26,6 +26,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RecipeDetailsComponent } from './component/recipe-details-component/recipe-details.component';
 import { MatDialogModule } from "@angular/material/dialog";
+import { MatListModule } from '@angular/material/list';
+import { GroceryListComponent } from './component/grocery-list/grocery-list.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -37,7 +40,8 @@ import { MatDialogModule } from "@angular/material/dialog";
     KitchenComponent,
     RecipeComponent,
     SearchBarComponent,
-    RecipeDetailsComponent
+    RecipeDetailsComponent,
+    GroceryListComponent
   ],
   imports: [
     BrowserModule,
@@ -56,9 +60,11 @@ import { MatDialogModule } from "@angular/material/dialog";
         allowedList: [
           "/api/private",
           "/api/user/getPantry.do",
-          "/api/groceryList/getAll.do",
           "/api/user/setPantry.do",
-          "/api/user/getUserId.do"
+          "/api/user/getUserId.do",
+          "/api/groceryList/getAll.do",
+          "/api/groceryList/add.do",
+          "/api/groceryList/addItem.do"
         ]
       }
     }),
@@ -70,13 +76,15 @@ import { MatDialogModule } from "@angular/material/dialog";
     BrowserAnimationsModule,
     MatProgressSpinnerModule,
     MatTabsModule,
+    MatListModule,
     MatProgressBarModule,
     MatButtonModule,
     AngularSplitModule,
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
-    MatDialogModule
+    MatDialogModule,
+    MatDividerModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },

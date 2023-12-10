@@ -26,7 +26,10 @@ public class GroceryList {
 
     public GroceryList() {
     }
-
+    public GroceryList(String title) {
+        super();
+        this.groceryListTitle = title;
+    }
     public GroceryList(String title, String firstIngredientId) {
         super();
         this.groceryListTitle = title;
@@ -58,5 +61,13 @@ public class GroceryList {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public void pushToIngredientList(String ingredientName) {
+        if (this.groceryListIngredients == "" || this.groceryListIngredients == null) {
+            this.groceryListIngredients = ingredientName;
+        } else {
+            this.groceryListIngredients += "," + ingredientName;
+        }
     }
 }
