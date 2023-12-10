@@ -38,16 +38,35 @@ export class KitchenComponent {
   userId: number;
   groceryLists: GroceryList[];
 
-  async ngOnInit() {
+  ngOnInit() {
     this.pantrySub = this.pantryService.currentPantry.subscribe(pantry => this.pantry = pantry);
-    console.log(await firstValueFrom(this.userService.getUserPantry()));
+    this.initializeGroceryLists();
+    // console.log(await firstValueFrom(this.userService.getUserPantry()));
+  }
+
+  private async initializeGroceryLists() {
+    this.getGroceryLists();
+  }
+  
+  private async getGroceryLists() {
+
     console.log(await firstValueFrom(this.userService.getUserId()));
-    // this.userId = await firstValueFrom(this.userService.getUserId());
 
-    // console.log(await firstValueFrom(this.userService.getUserPantry2()));
+    // this.groceryLists = await firstValueFrom(
+    //   )
+      this.groceryService.getGroceryListsByUserId(
+        await firstValueFrom(this.userService.getUserId())
+      )
+      .subscribe((data: GroceryList[]) => {
+        this.groceryLists = data.map(id, title, (ingredients: string), userId => new GroceryList(id, title, ingredients, userId));
+      });
+      
+    // const lists = await lastValueFrom(this.groceryService.getGroceryListsByUserId(await firstValueFrom(this.userService.getUserId())));
 
-    // this.groceryLists = this.groceryService.getGroceryListsByUserId(this.userId);
-    // console.log("grocery lists: " + this.groceryLists);
+    // let ingredientList = this.getAvailableIngredientsArray().map(ingredient => ingredient.ingredientName);
+    // this.groceryService.getGroceryListsByUserId(await firstValueFrom(this.userService.getUserId())).subscribe((data: GroceryList[]) => {
+    //   this.recipes = data.map(item => new Recipe(item));
+    // });
   }
 
   // WIP //
