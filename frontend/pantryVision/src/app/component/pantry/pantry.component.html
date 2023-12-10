@@ -28,8 +28,8 @@
                       (click)="toggleIngredient(ingredient)">{{ ingredient.ingredientName }}</button>
                 </div>
                 <div class="break"></div> <!-- Flexbox line break -->
-                <button *ngIf="group.ingredientsToShow >= 12 && group.ingredients.length >= 12" (click)="group.toggleIngredientsToShow()">
-                  {{ group.ingredientsToShow === 12 ? 'Show More...' : 'Show Less...' }}
+                <button *ngIf="group.ingredientsToShow >= INGREDIENTS_TO_SHOW && group.ingredients.length >= INGREDIENTS_TO_SHOW" (click)="group.toggleIngredientsToShow()">
+                  {{ group.ingredientsToShow === INGREDIENTS_TO_SHOW ? 'Show More...' : 'Show Less...' }}
                 </button>
               </div>
             </ng-template>

@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { PantryService } from '../../service/pantry.service';
-import { Subscription } from 'rxjs';
+import { Subscription, firstValueFrom, lastValueFrom } from 'rxjs';
 import { Pantry } from '../../model/pantry';
 import { Ingredient } from '../../model/ingredient';
 import { AuthService } from '@auth0/auth0-angular';
 import { Recipe } from "../../model/recipe";
 import { SpoonacularService } from "../../service/spoonacular.service";
+import { GroceryService } from 'src/app/service/grocery.service';
+import { GroceryList } from 'src/app/model/groceryList';
+import { UserService } from 'src/app/service/user.service';
 
 interface RecipeItem {
   id: number;
@@ -27,13 +30,43 @@ export class KitchenComponent {
 
   constructor(private pantryService: PantryService,
               private auth: AuthService,
-              private spoonacularService: SpoonacularService) {}
+              private spoonacularService: SpoonacularService,
+              private groceryService: GroceryService,
+              private userService: UserService) {}
 
   user$ = this.auth.user$;
+  userId: number;
+  groceryLists: GroceryList[];
 
-  ngOnInit() {
+  async ngOnInit() {
     this.pantrySub = this.pantryService.currentPantry.subscribe(pantry => this.pantry = pantry);
+    console.log(await firstValueFrom(this.userService.getUserPantry()));
+    console.log(await firstValueFrom(this.userService.getUserId()));
+    // this.userId = await firstValueFrom(this.userService.getUserId());
+
+    // console.log(await firstValueFrom(this.userService.getUserPantry2()));
+
+    // this.groceryLists = this.groceryService.getGroceryListsByUserId(this.userId);
+    // console.log("grocery lists: " + this.groceryLists);
   }
+
+  // WIP //
+  // async getGroceryLists(userId: number) {
+  //
+  //   const lists = await lastValueFrom(this.groceryService.getGroceryListsByUserId(userId));
+  //
+  //   this.groceryLists = await Promise.all(lists.map(async list => {
+  //     const ingredients = await lastValueFrom(this.groceryService.getGroceryListById(list.groceryListId));
+  //     const title = list.groceryListTitle;
+  //     const id = list.groceryListId;
+  //     const listIngredients = ingredients.map(ingredient => {
+  //       return new Ingredient(ingredient.ingredientName, ingredient.ingredientSpoonacularId, ingredient.groceryListId, ingredient.ingredientEssentialFlg);
+  //     })
+  //
+  //     const groceryList = new GroceryList(id, title, listIngredients);
+  //     return groceryList;
+  //   }));
+  // }
 
   ngOnDestroy() {
     this.pantrySub.unsubscribe();
