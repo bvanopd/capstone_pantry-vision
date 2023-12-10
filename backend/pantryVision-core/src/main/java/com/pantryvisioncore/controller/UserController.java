@@ -35,13 +35,6 @@ public class UserController {
         return ResponseEntity.ok("{\"pantry\": \"" + user.getPantryItems() + "\"}");
     }
 
-    @GetMapping("/user/getPantry2.do")
-    public ResponseEntity<String> getPantry2(@AuthenticationPrincipal Jwt jwt) {
-        addUserIfNotFound(jwt.getSubject());
-        User user = userRepository.findByUserName(jwt.getSubject());
-        return ResponseEntity.ok("{\"pantry\": \"" + user.getPantryItems() + "\"}");
-    }
-
     @PutMapping("/user/setPantry.do")
     public ResponseEntity<String> setPantry(@AuthenticationPrincipal Jwt jwt, @RequestBody String ingredients ) {
         addUserIfNotFound(jwt.getSubject());
