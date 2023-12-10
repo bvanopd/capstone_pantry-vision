@@ -8,7 +8,6 @@ import { UserService } from 'src/app/service/user.service';
 import { IngredientGroup } from "../../model/ingredientGroup";
 import { PantryService } from 'src/app/service/pantry.service';
 
-
 @Component({
   selector: 'app-pantry',
   templateUrl: './pantry.component.html',
@@ -19,13 +18,18 @@ export class PantryComponent {
   public pantry: Pantry;
   pantrySub: Subscription;
 
-  constructor(private ingredientService: IngredientService, private userService: UserService, private pantryService: PantryService, private auth: AuthService) { }
+  constructor(private ingredientService: IngredientService, 
+              private userService: UserService, 
+              private pantryService: PantryService, 
+              private auth: AuthService) {}
 
   pantryUpdated: boolean = true;
   scheduleUpdate: boolean;
 
   isLoading: boolean = true;
   authenticated: boolean;
+
+  readonly INGREDIENTS_TO_SHOW: number = 12;
 
   ngOnInit() {
     this.initializePantry();
@@ -82,7 +86,7 @@ export class PantryComponent {
         return new Ingredient(ingredient.ingredientName, ingredient.ingredientSpoonacularId, ingredient.ingredientGroupId, ingredient.ingredientEssentialFlg);
       })
 
-      const ingredientGroup = new IngredientGroup(description, groupIngredients, 12);
+      const ingredientGroup = new IngredientGroup(description, groupIngredients, this.INGREDIENTS_TO_SHOW);
       return ingredientGroup;
     }));
   }
