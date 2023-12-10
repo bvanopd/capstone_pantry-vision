@@ -19,7 +19,7 @@ export class GroceryService {
   }
 
   getGroceryLists(): Observable<any> {
-    return this.httpClient.get<string>("/api/groceryList/getAll.do");
+    return this.httpClient.get<string>("/api/groceries/getAll.do");
   }
 
 }

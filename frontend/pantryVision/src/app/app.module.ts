@@ -20,6 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { KitchenComponent } from './component/kitchen/kitchen.component';
 import { AngularSplitModule } from "angular-split";
 import { RecipeComponent } from './component/recipe/recipe/recipe.component';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -48,9 +49,9 @@ import { RecipeComponent } from './component/recipe/recipe/recipe.component';
         allowedList: [
           "/api/private",
           "/api/user/getPantry.do",
-          "/api/groceryList/getAll.do",
           "/api/user/setPantry.do",
-          "/api/user/getUserId.do"
+          "/api/user/getUserId.do",
+          "/api/groceries/getAll.do"
         ]
       }
     }),
@@ -62,6 +63,7 @@ import { RecipeComponent } from './component/recipe/recipe/recipe.component';
     BrowserAnimationsModule,
     MatProgressSpinnerModule,
     MatTabsModule,
+    MatListModule,
     MatProgressBarModule,
     MatButtonModule,
     AngularSplitModule

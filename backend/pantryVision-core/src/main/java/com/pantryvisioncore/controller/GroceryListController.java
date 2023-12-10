@@ -23,7 +23,7 @@ public class GroceryListController {
     private UserRepository userRepository;
 
     // Add a grocery list for a user
-    @PostMapping("/groceryList/add.do")
+    @PostMapping("/groceries/add.do")
     public ResponseEntity<String> addGroceryList(@AuthenticationPrincipal Jwt jwt, @RequestBody GroceryList groceryList) {
         User user = userRepository.findByUserName(jwt.getSubject());
         groceryList.setUserId(user.getId());
@@ -32,7 +32,7 @@ public class GroceryListController {
     }
 
     // Get all grocery lists for a user
-    @GetMapping("/groceryList/getAll.do")
+    @GetMapping("/groceries/getAll.do")
     public ResponseEntity<List<GroceryList>> getAllGroceryLists(@AuthenticationPrincipal Jwt jwt) {
         User user = userRepository.findByUserName(jwt.getSubject());
         List<GroceryList> groceryLists = groceryListRepository.findByUserId(user.getId());

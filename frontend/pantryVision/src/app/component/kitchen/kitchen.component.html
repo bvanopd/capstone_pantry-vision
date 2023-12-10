@@ -12,6 +12,11 @@
     </mat-tab>
     <mat-tab label="Grocery Lists">
       <br><br>
+      <ng-template *ngFor="let list of groceryLists">
+          <mat-list *ngFor="let ingredient of list.groceryListIngredients">
+            <!-- <mat-list-item>{{ingredient.ingredientName}}</mat-list-item> -->
+          </mat-list>
+      </ng-template>
       <p style="text-align: center;">We're sorry, this content is not available yet.</p>
     </mat-tab>
     <mat-tab label="Pantry Analysis">

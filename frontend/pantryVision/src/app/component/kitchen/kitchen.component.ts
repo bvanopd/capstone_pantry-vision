@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatListModule } from '@angular/material/list';
 import { PantryService } from '../../service/pantry.service';
 import { Subscription, firstValueFrom, lastValueFrom } from 'rxjs';
 import { Pantry } from '../../model/pantry';
@@ -50,25 +51,10 @@ export class KitchenComponent {
   
   private async getGroceryLists() {
 
-    console.log(await firstValueFrom(this.userService.getUserId()));
     console.log(await firstValueFrom(this.groceryService.getGroceryLists()));
     // this.userId = await firstValueFrom(this.userService.getUserId());
-
-    // this.groceryLists = await firstValueFrom(
-    //   )
-      this.groceryService.getGroceryListsByUserId(
-        await firstValueFrom(this.userService.getUserId())
-      )
-      .subscribe((data: GroceryList[]) => {
-        this.groceryLists = data.map(id, title, (ingredients: string), userId => new GroceryList(id, title, ingredients, userId));
-      });
       
     // const lists = await lastValueFrom(this.groceryService.getGroceryListsByUserId(await firstValueFrom(this.userService.getUserId())));
-
-    // let ingredientList = this.getAvailableIngredientsArray().map(ingredient => ingredient.ingredientName);
-    // this.groceryService.getGroceryListsByUserId(await firstValueFrom(this.userService.getUserId())).subscribe((data: GroceryList[]) => {
-    //   this.recipes = data.map(item => new Recipe(item));
-    // });
   }
 
   // WIP //
@@ -108,6 +94,15 @@ export class KitchenComponent {
     });
     this.recipes = [testRecipe];
   }
+  // testGroceryList() {
+  //   this.groceryService.
+  //   let testGroceryList = new GroceryList({
+  //     title: 'My Test List',
+  //     ingredients: 'My Test List',
+  //     usedIngredients: [{name:'Ingredient 1'}, {name:'Ingredient 2'}, {name:'Ingredient 3'}]
+  //   });
+  //   this.recipes = [testGroceryList];
+  // }
 
   getRecipes() {
     let ingredientList = this.getAvailableIngredientsArray().map(ingredient => ingredient.ingredientName);
