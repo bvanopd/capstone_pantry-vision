@@ -63,6 +63,8 @@ export class KitchenComponent {
   private async getGroceryLists() {
 
     console.log(await firstValueFrom(this.userService.getUserId()));
+    console.log(await firstValueFrom(this.groceryService.getGroceryLists()));
+    // this.userId = await firstValueFrom(this.userService.getUserId());
 
     // this.groceryLists = await firstValueFrom(
     //   )
