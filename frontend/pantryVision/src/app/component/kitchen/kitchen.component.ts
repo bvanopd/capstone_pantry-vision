@@ -42,6 +42,7 @@ export class KitchenComponent {
     this.pantrySub = this.pantryService.currentPantry.subscribe(pantry => this.pantry = pantry);
     console.log(await firstValueFrom(this.userService.getUserPantry()));
     console.log(await firstValueFrom(this.userService.getUserId()));
+    console.log(await firstValueFrom(this.groceryService.getGroceryLists()));
     // this.userId = await firstValueFrom(this.userService.getUserId());
 
     // console.log(await firstValueFrom(this.userService.getUserPantry2()));
