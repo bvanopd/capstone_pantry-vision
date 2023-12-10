@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("/api")
 public class UserController {
 
     @Autowired
@@ -35,11 +35,25 @@ public class UserController {
         return ResponseEntity.ok("{\"pantry\": \"" + user.getPantryItems() + "\"}");
     }
 
+    @GetMapping("/user/getPantry2.do")
+    public ResponseEntity<String> getPantry2(@AuthenticationPrincipal Jwt jwt) {
+        addUserIfNotFound(jwt.getSubject());
+        User user = userRepository.findByUserName(jwt.getSubject());
+        return ResponseEntity.ok("{\"pantry\": \"" + user.getPantryItems() + "\"}");
+    }
+
     @PutMapping("/user/setPantry.do")
     public ResponseEntity<String> setPantry(@AuthenticationPrincipal Jwt jwt, @RequestBody String ingredients ) {
         addUserIfNotFound(jwt.getSubject());
         userRepository.updateUserPantryByUserName(jwt.getSubject(), ingredients);
         return ResponseEntity.ok("{\"message\": \"" + ingredients +"\"}");
+    }
+
+    @GetMapping("/user/getUserId.do")
+    public ResponseEntity<String> getUserId(@AuthenticationPrincipal Jwt jwt) {
+        addUserIfNotFound(jwt.getSubject());
+        User user = userRepository.findByUserName(jwt.getSubject());
+        return ResponseEntity.ok("{\"id\": \"" + user.getId() + "\"}");
     }
 
     private void addUserIfNotFound(String userName) {

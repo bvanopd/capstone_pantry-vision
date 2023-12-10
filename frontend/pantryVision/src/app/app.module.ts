@@ -56,7 +56,9 @@ import { MatDialogModule } from "@angular/material/dialog";
         allowedList: [
           "/api/private",
           "/api/user/getPantry.do",
+          "/api/user/getPantry2.do",
           "/api/user/setPantry.do",
+          "/api/user/getUserId.do"
         ]
       }
     }),
