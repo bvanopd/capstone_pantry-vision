@@ -1,15 +1,28 @@
 <div id="pageWrapper">
   <app-header></app-header>
   <main>
-    <div id="app-split">
-      <as-split direction="horizontal" gutterSize="20">
-        <as-split-area [size]="30">
-          <app-pantry></app-pantry>
-        </as-split-area>
-        <as-split-area [size]="70">
-          <app-kitchen></app-kitchen>
-        </as-split-area>
-      </as-split>
-    </div>
+<div id="tabbed" *ngIf="screenService.screenSize === 'sm'; else largeScreen">
+  <mat-tab-group preserveContent="true" animationDuration="0ms">
+    <mat-tab label="Pantry">
+      <app-pantry></app-pantry>
+    </mat-tab>
+    <mat-tab label="Kitchen">
+      <app-kitchen></app-kitchen>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+<ng-template #largeScreen>
+  <div id="app-split">
+    <as-split direction="horizontal" gutterSize="20">
+      <as-split-area [size]="30">
+        <app-pantry></app-pantry>
+      </as-split-area>
+      <as-split-area [size]="70">
+        <app-kitchen></app-kitchen>
+      </as-split-area>
+    </as-split>
+  </div>
+</ng-template>
   </main>
 </div>

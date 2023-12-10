@@ -31,3 +31,14 @@ app-pantry {
   flex: 1;
   height: 100%;
 }
+
+#tabbed {
+  width: 100%;
+}
+
+@media screen and (max-width: 800px) {
+  #pageWrapper {
+    margin: 0;
+    padding: 2px;
+  }
+}

@@ -18,7 +18,6 @@ export class PantryComponent {
 
   public pantry: Pantry;
   pantrySub: Subscription;
-  plainTextToggle: Boolean = false;
 
   constructor(private ingredientService: IngredientService, private userService: UserService, private pantryService: PantryService, private auth: AuthService) { }
 
