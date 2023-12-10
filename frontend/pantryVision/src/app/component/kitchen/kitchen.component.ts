@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { PantryService } from '../../service/pantry.service';
-import { Subscription, firstValueFrom, lastValueFrom, Observable } from 'rxjs';
+import { Subject, Subscription, firstValueFrom, lastValueFrom, takeUntil, Observable } from 'rxjs';
 import { Pantry } from '../../model/pantry';
 import { Ingredient } from '../../model/ingredient';
 import { AuthService } from '@auth0/auth0-angular';
@@ -47,76 +47,58 @@ export class KitchenComponent {
               private groceryService: GroceryService,
               private userService: UserService) {}
 
+  subscriptions: Subscription[] = [];
   user$ = this.auth.user$;
+  userId: number;
+  availableIngredients: string[];
   groceryLists: GroceryList[];
 
   ngOnInit() {
     this.pantrySub = this.pantryService.currentPantry.subscribe(pantry => this.pantry = pantry);
-    this.initializeGroceryLists();
-    // console.log(await firstValueFrom(this.userService.getUserPantry()));
+    this.initializeAvailableIngredients();
+    this.setupGroceryLists();
   }
 
-  private async initializeGroceryLists() {
-    this.getGroceryLists();
+  async setupGroceryLists() {
+    this.groceryService.getGroceryLists().subscribe((data: GroceryList[]) => {
+      this.groceryLists = data.map(list => GroceryList.fromDataObject(list))
+    })
   }
 
-  private async getGroceryLists() {
-
-    console.log(await firstValueFrom(this.userService.getUserId()));
-    console.log(await firstValueFrom(this.groceryService.getGroceryLists()));
-    // this.userId = await firstValueFrom(this.userService.getUserId());
-
-    // this.groceryLists = await firstValueFrom(
-    //   )
-      this.groceryService.getGroceryListsByUserId(
-        await firstValueFrom(this.userService.getUserId())
-      )
-      .subscribe((data: GroceryList[]) => {
-        this.groceryLists = data.map(id, title, (ingredients: string), userId => new GroceryList(id, title, ingredients, userId));
-      });
-
-    // const lists = await lastValueFrom(this.groceryService.getGroceryListsByUserId(await firstValueFrom(this.userService.getUserId())));
-
-    // let ingredientList = this.getAvailableIngredientsArray().map(ingredient => ingredient.ingredientName);
-    // this.groceryService.getGroceryListsByUserId(await firstValueFrom(this.userService.getUserId())).subscribe((data: GroceryList[]) => {
-    //   this.recipes = data.map(item => new Recipe(item));
-    // });
-    this.initializeGroceryLists();
+  private async initializeAvailableIngredients() {
+    this.availableIngredients = (await this.getAvailableIngredientsArray()).map(ingredient => ingredient.ingredientName);
   }
-
-  // WIP //
-  // async getGroceryLists(userId: number) {
-  //
-  //   const lists = await lastValueFrom(this.groceryService.getGroceryListsByUserId(userId));
-  //
-  //   this.groceryLists = await Promise.all(lists.map(async list => {
-  //     const ingredients = await lastValueFrom(this.groceryService.getGroceryListById(list.groceryListId));
-  //     const title = list.groceryListTitle;
-  //     const id = list.groceryListId;
-  //     const listIngredients = ingredients.map(ingredient => {
-  //       return new Ingredient(ingredient.ingredientName, ingredient.ingredientSpoonacularId, ingredient.groceryListId, ingredient.ingredientEssentialFlg);
-  //     })
-  //
-  //     const groceryList = new GroceryList(id, title, listIngredients);
-  //     return groceryList;
-  //   }));
-  // }
 
   ngOnDestroy() {
-    this.pantrySub.unsubscribe();
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  getAvailableIngredientsArray(): Ingredient[] {
-    return Array.from(this.pantry.ingredientAvailability.entries())
-      .filter(([ingredient, isAvailable]) => isAvailable)
-      .map(([ingredient]) => ingredient);
+  getAvailableIngredientsArray(): Promise<Ingredient[]> {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const availableIngredients = Array.from(this.pantry.ingredientAvailability.entries())
+          .filter(([ingredient, isAvailable]) => isAvailable)
+          .map(([ingredient]) => ingredient);
+        resolve(availableIngredients);
+      }, 2000);
+    });
   }
 
   getRecipes() {
-    let ingredientList = this.getAvailableIngredientsArray().map(ingredient => ingredient.ingredientName);
-    this.spoonacularService.getRecipesByIngredients(ingredientList).subscribe((data: RecipeItem[]) => {
-      this.recipes = data.map(item => new Recipe(item));
-    });
+    this.subscriptions.push(
+      this.spoonacularService.getRecipesByIngredients(this.availableIngredients).subscribe((data: RecipeItem[]) => {
+        this.recipes = data.map(item => new Recipe(item));
+      })
+    )
+  }
+
+  createGroceryList(title: string) {
+    if (title == "") title = "My list";
+
+    this.subscriptions.push(
+      this.groceryService.addGroceryList(title).subscribe()
+    )
+    this.setupGroceryLists();
   }
 
   getRecipeDetails(recipeId: number): Observable<any> {

@@ -1,0 +1,10 @@
+<div *ngIf="groceryList" class="card groceryListCard">
+  <div class="card-body">
+    <div class="card-title">{{ groceryList.groceryListTitle }}</div>
+    <ul *ngIf="groceryList.groceryListIngredients" class="card-body">
+      <li *ngFor="let ingredient of groceryList.groceryListIngredients.split(',')"
+      >{{ ingredient }}<button mat-raised-button color="accent" class="groceryRemoveButton"
+      onclick="console.log('Bye')">remove</button></li>
+    </ul>
+  </div>
+</div>

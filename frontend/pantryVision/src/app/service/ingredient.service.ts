@@ -28,4 +28,8 @@ export class IngredientService {
   getIngredientsByGroupId(groupId: number): Observable<Ingredient[]> {
     return this.httpClient.get<Ingredient[]>(`/api/ingredients/ingredientsByGroupId.do?groupId=${groupId}`);
   }
+
+  getIngredientById(ingredientId: number): Observable<Ingredient> {
+    return this.httpClient.get<Ingredient>(`/api/ingredients/ingredientById.do?ingredientId=${ingredientId}`);
+  }
 }

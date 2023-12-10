@@ -43,3 +43,8 @@ h2 {
     height: 40vh;
   }
 }
+
+.groceryListContainer {
+  overflow-y: auto;
+  max-height: 65vh;
+}
