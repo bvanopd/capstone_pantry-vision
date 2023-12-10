@@ -17,5 +17,9 @@ export class GroceryService {
   getGroceryListById(groceryListId: number): Observable<GroceryList[]> {
     return this.httpClient.get<GroceryList[]>(`/api/groceries/groceryListById.do?groceryListId=${groceryListId}`);
   }
-  
+
+  getGroceryLists(): Observable<any> {
+    return this.httpClient.get<string>("/api/groceryList/getAll.do");
+  }
+
 }
