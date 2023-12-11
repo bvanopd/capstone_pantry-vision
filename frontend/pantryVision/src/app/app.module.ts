@@ -20,6 +20,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { KitchenComponent } from './component/kitchen/kitchen.component';
 import { AngularSplitModule } from "angular-split";
 import { RecipeComponent } from './component/recipe/recipe/recipe.component';
+import { SearchBarComponent } from './component/search-bar/search-bar.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -29,7 +33,8 @@ import { RecipeComponent } from './component/recipe/recipe/recipe.component';
     PantryComponent,
     HeaderComponent,
     KitchenComponent,
-    RecipeComponent
+    RecipeComponent,
+    SearchBarComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +67,10 @@ import { RecipeComponent } from './component/recipe/recipe/recipe.component';
     MatTabsModule,
     MatProgressBarModule,
     MatButtonModule,
-    AngularSplitModule
+    AngularSplitModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
