@@ -20,6 +20,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { KitchenComponent } from './component/kitchen/kitchen.component';
 import { AngularSplitModule } from "angular-split";
 import { RecipeComponent } from './component/recipe/recipe/recipe.component';
+import { RecipeDetailsComponent } from './component/recipe-details-component/recipe-details.component';
+import { MatDialogModule } from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { RecipeComponent } from './component/recipe/recipe/recipe.component';
     PantryComponent,
     HeaderComponent,
     KitchenComponent,
-    RecipeComponent
+    RecipeComponent,
+    RecipeDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +65,8 @@ import { RecipeComponent } from './component/recipe/recipe/recipe.component';
     MatTabsModule,
     MatProgressBarModule,
     MatButtonModule,
-    AngularSplitModule
+    AngularSplitModule,
+    MatDialogModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },

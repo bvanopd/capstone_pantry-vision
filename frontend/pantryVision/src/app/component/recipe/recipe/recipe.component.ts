@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Recipe } from "../../../model/recipe";
+import { KitchenComponent } from "../../kitchen/kitchen.component";
 
 @Component({
   selector: 'app-recipe',
@@ -9,4 +10,9 @@ import { Recipe } from "../../../model/recipe";
 export class RecipeComponent {
   @Input() recipe: Recipe;
 
+  constructor(private kitchenComponent: KitchenComponent) {}
+
+  onRecipeClick(): void {
+    this.kitchenComponent.openRecipeDetailsModal(this.recipe);
+  }
 }
