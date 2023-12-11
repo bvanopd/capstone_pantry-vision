@@ -8,5 +8,5 @@ import { Recipe } from "../../../model/recipe";
 })
 export class RecipeComponent {
   @Input() recipe: Recipe;
-
+  @Input() availableIngredients: String[];
 }

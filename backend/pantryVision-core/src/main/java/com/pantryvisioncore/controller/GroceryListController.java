@@ -23,9 +23,11 @@ public class GroceryListController {
     private UserRepository userRepository;
 
     // Add a grocery list for a user
-    @PostMapping("/groceryList/add.do")
-    public ResponseEntity<String> addGroceryList(@AuthenticationPrincipal Jwt jwt, @RequestBody GroceryList groceryList) {
+    @PutMapping("/groceryList/add.do")
+    public ResponseEntity<String> addGroceryList(@AuthenticationPrincipal Jwt jwt, @RequestBody String groceryListTitle) {
         User user = userRepository.findByUserName(jwt.getSubject());
+        GroceryList groceryList = new GroceryList(groceryListTitle);
+        System.out.println("mama mia");
         groceryList.setUserId(user.getId());
         groceryListRepository.save(groceryList);
         return ResponseEntity.ok("{\"message\": \"Grocery list added successfully\"}");

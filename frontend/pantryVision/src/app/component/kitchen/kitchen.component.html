@@ -7,22 +7,28 @@
 <!--      <button mat-raised-button color="primary" (click)="testRecipe()">Test Recipe</button>-->
       <button mat-raised-button color="primary" (click)="getRecipes()">Find Recipes!</button>
       <div id="recipeContainer">
-        <app-recipe *ngFor="let recipe of recipes" [recipe]="recipe"></app-recipe>
+        <app-recipe *ngFor="let recipe of recipes" [recipe]="recipe" [availableIngredients]="availableIngredients"></app-recipe>
       </div>
     </mat-tab>
     <mat-tab label="Grocery Lists">
       <br><br>
-      <ng-template *ngFor="let list of groceryLists">
-          <mat-list *ngFor="let ingredient of list.groceryListIngredients">
-            <!-- <mat-list-item>{{ingredient.ingredientName}}</mat-list-item> -->
-          </mat-list>
+      <div>
+        <input #box />
+        <button mat-raised-button color="primary" (click)="createGroceryList(box.value, '')">Create a list?</button>
+      </div>
+      <ng-template *ngIf="!groceryLists || groceryLists.length < 1; else userHasLists">
+        <p style="text-align: center;">You have no grocery lists.</p>
       </ng-template>
-      <p style="text-align: center;">We're sorry, this content is not available yet.</p>
+      <ng-template #userHasLists>
+        <ng-template *ngFor="let list of groceryLists">
+          <app-grocery-list [groceryList]="list"></app-grocery-list>
+        </ng-template>
+      </ng-template>
     </mat-tab>
     <mat-tab label="Pantry Analysis">
       <div class="mx-2 my-2">
         <div class="fw-bold text-uppercase">In stock:</div>
-        <span *ngFor="let ingredient of getAvailableIngredientsArray(); let last=last">{{ingredient.ingredientName}}<ng-container *ngIf="!last">, </ng-container> </span>
+        <span *ngFor="let ingredient of availableIngredients; let last=last">{{ ingredient }}<ng-container *ngIf="!last">, </ng-container> </span>
       </div>
     </mat-tab>
     <mat-tab *ngIf="user$ | async as user" label="Profile">

@@ -21,6 +21,8 @@ import { KitchenComponent } from './component/kitchen/kitchen.component';
 import { AngularSplitModule } from "angular-split";
 import { RecipeComponent } from './component/recipe/recipe/recipe.component';
 import { MatListModule } from '@angular/material/list';
+import { GroceryListComponent } from './component/grocery-list/grocery-list.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { MatListModule } from '@angular/material/list';
     PantryComponent,
     HeaderComponent,
     KitchenComponent,
-    RecipeComponent
+    RecipeComponent,
+    GroceryListComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +54,8 @@ import { MatListModule } from '@angular/material/list';
           "/api/user/getPantry.do",
           "/api/user/setPantry.do",
           "/api/user/getUserId.do",
-          "/api/groceryList/getAll.do"
+          "/api/groceryList/getAll.do",
+          "/api/groceryList/add.do"
         ]
       }
     }),
@@ -66,7 +70,8 @@ import { MatListModule } from '@angular/material/list';
     MatListModule,
     MatProgressBarModule,
     MatButtonModule,
-    AngularSplitModule
+    AngularSplitModule,
+    MatDividerModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },

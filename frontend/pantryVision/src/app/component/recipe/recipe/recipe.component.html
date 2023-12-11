@@ -3,6 +3,8 @@
   <img [src]="recipe.image" alt="{{ recipe.title }}">
   <p>Ingredients:</p>
   <ul>
-    <li *ngFor="let ingredient of recipe.usedIngredients">{{ ingredient }}</li>
+    <li *ngFor="let ingredient of recipe.usedIngredients"
+    >{{ ingredient }}<button mat-raised-button color="primary" class="grocery-add-button"
+    *ngIf="!availableIngredients.includes(ingredient)" onclick="console.log('Hi')">+ shop</button></li>
   </ul>
 </div>

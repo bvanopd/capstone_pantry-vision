@@ -21,7 +21,10 @@ public class GroceryList {
 
     public GroceryList() {
     }
-
+    public GroceryList(String title) {
+        super();
+        this.groceryListTitle = title;
+    }
     public GroceryList(String title, String firstIngredientId) {
         super();
         this.groceryListTitle = title;

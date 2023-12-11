@@ -1,4 +1,4 @@
-.recipe {
+.grocery-list {
   border: 1px solid #ddd;
   border-radius: 5px;
   margin: 10px;
@@ -6,22 +6,17 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
 
-.recipe img {
-  width: 100px;
-  height: auto;
-}
-
-.recipe h2 {
+.grocery-list h3 {
   font-size: 20px;
   margin-bottom: 10px;
 }
 
-.recipe ul {
+.grocery-list ul {
   list-style-type: none;
   padding: 0;
 }
 
-.recipe li {
+.grocery-list li {
   margin-bottom: 5px;
 }
 
