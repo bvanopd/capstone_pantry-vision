@@ -55,7 +55,8 @@ import { MatDividerModule } from '@angular/material/divider';
           "/api/user/setPantry.do",
           "/api/user/getUserId.do",
           "/api/groceryList/getAll.do",
-          "/api/groceryList/add.do"
+          "/api/groceryList/add.do",
+          "/api/groceryList/addItem.do"
         ]
       }
     }),

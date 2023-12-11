@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { PantryService } from '../../service/pantry.service';
-import { Subscription, firstValueFrom, lastValueFrom } from 'rxjs';
+import { Subject, Subscription, firstValueFrom, lastValueFrom, takeUntil } from 'rxjs';
 import { Pantry } from '../../model/pantry';
 import { Ingredient } from '../../model/ingredient';
 import { AuthService } from '@auth0/auth0-angular';
@@ -34,25 +34,33 @@ export class KitchenComponent {
               ) {}
 
   user$ = this.auth.user$;
+  cleanup$ = new Subject<void>();
   userId: number;
   availableIngredients: string[];
   groceryLists: GroceryList[];
 
   ngOnInit() {
-    this.pantrySub = this.pantryService.currentPantry.subscribe(pantry => this.pantry = pantry);
+    this.pantrySub = this.pantryService.currentPantry
+        .pipe(takeUntil(this.cleanup$)).subscribe(pantry => this.pantry = pantry);
     this.initializeAvailableIngredients();
-    this.initializeGroceryLists();
+    this.setupGroceryLists();
   }
 
-  private async initializeGroceryLists() {
-    this.groceryLists = await firstValueFrom(this.groceryService.getGroceryLists());
+  async setupGroceryLists() {
+    this.groceryService.getGroceryLists().subscribe((data: GroceryList[]) =>
+      this.groceryLists = data.map(list => GroceryList.fromDataObject(list))
+    );
+    // this.groceryLists = await firstValueFrom(this.groceryService.getGroceryLists().map(list => GroceryList.fromDataObject(list)));
+    console.log(this.groceryLists)
   }
+
   private async initializeAvailableIngredients() {
     this.availableIngredients = (await this.getAvailableIngredientsArray()).map(ingredient => ingredient.ingredientName);
   }
 
   ngOnDestroy() {
-    this.pantrySub.unsubscribe();
+    this.cleanup$.next();
+    this.cleanup$.complete();
   }
 
   getAvailableIngredientsArray(): Promise<Ingredient[]> {
@@ -82,9 +90,10 @@ export class KitchenComponent {
     });
   }
 
-  createGroceryList(title: string, ingredients: string) {
+  createGroceryList(title: string) {
     if (title == "") title = "My List";
-    this.groceryService.addGroceryList(title, ingredients);
+    this.groceryService.addGroceryList(title).subscribe();
+    this.setupGroceryLists();
   }
 
 }

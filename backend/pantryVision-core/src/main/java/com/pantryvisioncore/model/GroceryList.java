@@ -57,4 +57,12 @@ public class GroceryList {
     public void setUserId(long userId) {
         this.userId = userId;
     }
+
+    public void pushToIngredientList(String ingredientId) {
+        if (this.groceryListIngredients == "" || this.groceryListIngredients == null) {
+            this.groceryListIngredients = ingredientId;
+        } else {
+            this.groceryListIngredients += "," + ingredientId;
+        }
+    }
 }

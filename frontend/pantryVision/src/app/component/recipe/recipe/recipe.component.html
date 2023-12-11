@@ -4,7 +4,7 @@
   <p>Ingredients:</p>
   <ul>
     <li *ngFor="let ingredient of recipe.usedIngredients"
-    >{{ ingredient }}<button mat-raised-button color="primary" class="grocery-add-button"
-    *ngIf="!availableIngredients.includes(ingredient)" onclick="console.log('Hi')">+ shop</button></li>
+    >{{ ingredient.name }}<button mat-raised-button color="primary" class="groceryAddButton"
+    *ngIf="!availableIngredients.includes(ingredient.name)" (click)="addItemToList(ingredient.id)">+ shop</button></li>
   </ul>
 </div>

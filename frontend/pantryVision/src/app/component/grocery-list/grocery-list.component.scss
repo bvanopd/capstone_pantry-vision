@@ -1,26 +1,8 @@
-.grocery-list {
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin: 10px;
-  padding: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+.groceryListCard {
+  margin: .5rem
 }
 
-.grocery-list h3 {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-.grocery-list ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.grocery-list li {
-  margin-bottom: 5px;
-}
-
-button.grocery-add-button {
+button.groceryRemoveButton {
   height: 1.5rem;
   margin-left: .4rem;
 }

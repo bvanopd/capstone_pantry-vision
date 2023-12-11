@@ -14,3 +14,8 @@ h2 {
   display: flex;
   margin-top: 20px;
 }
+
+.groceryListContainer {
+  overflow-y: auto;
+  max-height: 65vh;
+}
