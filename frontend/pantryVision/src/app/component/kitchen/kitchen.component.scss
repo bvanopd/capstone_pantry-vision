@@ -12,7 +12,36 @@ h2 {
 
 #recipeContainer {
   display: flex;
+  flex-direction: column;
   margin-top: 20px;
+  height: 65vh;
+}
+
+@media screen and (max-height: 1000px) {
+  #kitchen {
+    height: 83vh;
+  }
+  #recipeContainer {
+    height: 55vh;
+  }
+}
+
+@media screen and (max-height: 800px) {
+  #kitchen {
+    height: 80vh;
+  }
+  #recipeContainer {
+    height: 50vh;
+  }
+}
+
+@media screen and (max-height: 650px) {
+  #kitchen {
+    height: 75vh;
+  }
+  #recipeContainer {
+    height: 40vh;
+  }
 }
 
 @media screen and (max-height: 1000px) {
