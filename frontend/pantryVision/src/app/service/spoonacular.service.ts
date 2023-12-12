@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +12,26 @@ export class SpoonacularService {
 
   constructor(private http: HttpClient) { }
 
-  // Api calls limited to 2 recipes for now until we get an idea of how many points we can play with
+  // Api calls limited to 15 recipes for now, maybe increase it after we've finished implementations
 
   getRecipesByIngredients(ingredients: string[]): Observable<any> {
     const ingredientsString = ingredients.join(',+');
-    return this.http.get(`${this.apiUrl}/recipes/findByIngredients?ingredients=${ingredientsString}&number=2&apiKey=${this.apiKey}`);
+
+    // The api response doesn't seem to be sorting by fewest missing ingredients, so lets do it ourselves
+    return this.http.get(`${this.apiUrl}/recipes/findByIngredients?ingredients=${ingredientsString}&number=15&apiKey=${this.apiKey}&sort=min-missing-ingredients`).pipe(
+      map((response: any) => {
+        response.sort((a: any, b: any) => {
+          let aMissing = a.missedIngredients.length;
+          let bMissing = b.missedIngredients.length;
+          return aMissing - bMissing;
+        });
+        return response;
+      })
+    );
+  }
+
+  getRecipeInformation(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/recipes/${id}/information?apiKey=${this.apiKey}`);
   }
 
 }
