@@ -58,11 +58,11 @@ public class GroceryList {
         this.userId = userId;
     }
 
-    public void pushToIngredientList(String ingredientId) {
+    public void pushToIngredientList(String ingredientName) {
         if (this.groceryListIngredients == "" || this.groceryListIngredients == null) {
-            this.groceryListIngredients = ingredientId;
+            this.groceryListIngredients = ingredientName;
         } else {
-            this.groceryListIngredients += "," + ingredientId;
+            this.groceryListIngredients += "," + ingredientName;
         }
     }
 }

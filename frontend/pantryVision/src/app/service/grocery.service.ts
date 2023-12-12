@@ -22,8 +22,8 @@ export class GroceryService {
     return this.httpClient.put("/api/groceryList/add.do", groceryListTitle);
   }
 
-  addToGroceryList(ingredientId: string): Observable<any> {
-    return this.httpClient.put("/api/groceryList/addItem.do", ingredientId);
+  addToGroceryList(ingredientName: string): Observable<any> {
+    return this.httpClient.put("/api/groceryList/addItem.do", ingredientName);
   }
   
 }

@@ -33,25 +33,22 @@ export class KitchenComponent {
               private groceryService: GroceryService,
               ) {}
 
+  subscriptions: Subscription[] = [];
   user$ = this.auth.user$;
-  cleanup$ = new Subject<void>();
   userId: number;
   availableIngredients: string[];
   groceryLists: GroceryList[];
 
   ngOnInit() {
-    this.pantrySub = this.pantryService.currentPantry
-        .pipe(takeUntil(this.cleanup$)).subscribe(pantry => this.pantry = pantry);
+    this.pantrySub = this.pantryService.currentPantry.subscribe(pantry => this.pantry = pantry);    
     this.initializeAvailableIngredients();
     this.setupGroceryLists();
   }
 
   async setupGroceryLists() {
-    this.groceryService.getGroceryLists().subscribe((data: GroceryList[]) =>
+    this.groceryService.getGroceryLists().subscribe((data: GroceryList[]) => {
       this.groceryLists = data.map(list => GroceryList.fromDataObject(list))
-    );
-    // this.groceryLists = await firstValueFrom(this.groceryService.getGroceryLists().map(list => GroceryList.fromDataObject(list)));
-    console.log(this.groceryLists)
+    })
   }
 
   private async initializeAvailableIngredients() {
@@ -59,10 +56,9 @@ export class KitchenComponent {
   }
 
   ngOnDestroy() {
-    this.cleanup$.next();
-    this.cleanup$.complete();
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
-
+  
   getAvailableIngredientsArray(): Promise<Ingredient[]> {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -85,14 +81,19 @@ export class KitchenComponent {
   }
 
   getRecipes() {
-    this.spoonacularService.getRecipesByIngredients(this.availableIngredients).subscribe((data: RecipeItem[]) => {
-      this.recipes = data.map(item => new Recipe(item));
-    });
+    this.subscriptions.push(
+      this.spoonacularService.getRecipesByIngredients(this.availableIngredients).subscribe((data: RecipeItem[]) => {
+        this.recipes = data.map(item => new Recipe(item));
+      })
+    )
   }
 
   createGroceryList(title: string) {
-    if (title == "") title = "My List";
-    this.groceryService.addGroceryList(title).subscribe();
+    if (title == "") title = "My list";
+
+    this.subscriptions.push(
+      this.groceryService.addGroceryList(title).subscribe()
+    )
     this.setupGroceryLists();
   }
 

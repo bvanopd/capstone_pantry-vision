@@ -22,10 +22,6 @@
       <ng-template #userHasLists>
         <div class="groceryListContainer">
           <div *ngFor="let list of groceryLists">
-            <p>{{list.groceryListTitle}}</p>
-            <!-- <p>{{list.id}}</p>
-            <p>{{list.userId}}</p>
-            <p>{{list.groceryListItems}}</p> -->
             <app-grocery-list [groceryList]="list"></app-grocery-list>
           </div>
         </div>

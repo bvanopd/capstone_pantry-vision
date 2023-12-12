@@ -9,5 +9,5 @@ public interface IngredientRepository extends JpaRepository<Ingredient, Integer>
     List<Ingredient> findByIngredientGroupIdIsNotNull();
     List<Ingredient> findByIngredientGroupIdIsNull();
     List<Ingredient> findByIngredientGroupId(int groupId);
-    Ingredient findById(int ingredientId);
+    Ingredient findByIngredientId(int ingredientId);
 }

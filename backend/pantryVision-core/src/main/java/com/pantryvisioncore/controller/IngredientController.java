@@ -55,7 +55,7 @@ public class IngredientController {
     // Get a single ingredient BY id
     @GetMapping("/ingredients/ingredientById.do")
     public Ingredient getIngredientsById(@RequestParam("ingredientId") int ingredientId) {
-        return ingredientRepository.findById(ingredientId);
+        return ingredientRepository.findByIngredientId(ingredientId);
     }
 
     // All ingredients that dont have a group

@@ -18,12 +18,12 @@ export class RecipeComponent {
   constructor(private groceryService: GroceryService,
               private userService: UserService) {}
 
-  async addItemToList(ingredientId: string) {
+  async addItemToList(ingredientName: string) {
     if (!this.groceryList || !this.groceryService.getGroceryLists()) {
       await lastValueFrom(this.groceryService.addGroceryList("My list"));
-      await lastValueFrom(this.groceryService.addToGroceryList(ingredientId));
-    } else if (!this.groceryList.groceryListIngredients.includes(ingredientId)) {
-      this.groceryService.addToGroceryList(ingredientId).subscribe()
+      await lastValueFrom(this.groceryService.addToGroceryList(ingredientName));
+    } else if (!this.groceryList.groceryListIngredients.includes(ingredientName)) {
+      await lastValueFrom(this.groceryService.addToGroceryList(ingredientName));
     }
   }
 }

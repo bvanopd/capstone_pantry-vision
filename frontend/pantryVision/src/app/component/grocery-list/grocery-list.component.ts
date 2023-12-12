@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
+import { Subscription, firstValueFrom, lastValueFrom } from 'rxjs';
 import { GroceryList } from 'src/app/model/groceryList';
 import { IngredientService } from 'src/app/service/ingredient.service';
+import { PantryService } from 'src/app/service/pantry.service';
 
 @Component({
   selector: 'app-grocery-list',
@@ -9,15 +10,5 @@ import { IngredientService } from 'src/app/service/ingredient.service';
   styleUrls: ['./grocery-list.component.scss']
 })
 export class GroceryListComponent {
-  @Input() groceryList: GroceryList
-
-  constructor(private ingredientService: IngredientService) {}
-
-  async getIngredientNameById(id: number) {
-    let ingredient = await lastValueFrom(this.ingredientService.getIngredientById(id));
-    console.log(ingredient)
-    console.log(ingredient.ingredientName)
-    return ingredient.ingredientName;
-      // return this.ingredientService.getIngredientById(id).subscribe();
-  }
+  @Input() groceryList: GroceryList;
 }
