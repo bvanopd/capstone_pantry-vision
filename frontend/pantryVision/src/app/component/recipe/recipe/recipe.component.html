@@ -6,4 +6,5 @@
   <div class="recipeIngredientInfo">
     <p>You are missing {{recipe.missedIngredientCount}} ingredients</p>
   </div>
+  <button *ngIf="user$ | async as user" (click)="saveRecipe(recipe)">Save</button>
 </div>

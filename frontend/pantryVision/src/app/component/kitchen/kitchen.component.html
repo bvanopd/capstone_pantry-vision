@@ -27,6 +27,13 @@
       <p style="text-align: center;">Name: {{ user.name }}</p>
       <p style="text-align: center;">Email: {{ user.email }}</p>
       <p style="text-align: center;"><b>More profile data coming soon</b></p>
+        
+      <table>
+        <td><h2>Saved Recipes</h2></td>
+        <tr *ngFor="let savedRecipe of savedRecipes">
+          {{ savedRecipe.title }}
+        </tr>
+      </table>
     </mat-tab>
   </mat-tab-group>
 </div>
