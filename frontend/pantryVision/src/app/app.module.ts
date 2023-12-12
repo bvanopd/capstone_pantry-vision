@@ -24,6 +24,8 @@ import { SearchBarComponent } from './component/search-bar/search-bar.component'
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { RecipeDetailsComponent } from './component/recipe-details-component/recipe-details.component';
+import { MatDialogModule } from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { MatInputModule } from '@angular/material/input';
     HeaderComponent,
     KitchenComponent,
     RecipeComponent,
-    SearchBarComponent
+    SearchBarComponent,
+    RecipeDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -70,7 +73,8 @@ import { MatInputModule } from '@angular/material/input';
     AngularSplitModule,
     MatAutocompleteModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatDialogModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },

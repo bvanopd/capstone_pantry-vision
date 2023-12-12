@@ -3,18 +3,21 @@
   <mat-tab-group preserveContent="true" animationDuration="0ms">
     <mat-tab label="Recipes">
       <br><br>
-      <p style="text-align: center;">Recipe sneak peak -- Stay tuned for more details!</p>
-<!--      <button mat-raised-button color="primary" (click)="testRecipe()">Test Recipe</button>-->
+      <p style="text-align: center;">List of Recipes based on your Pantry. Click on a Recipe to view details.</p>
       <button mat-raised-button color="primary" (click)="getRecipes()">Find Recipes!</button>
       <div id="recipeContainer">
-        <app-recipe *ngFor="let recipe of recipes" [recipe]="recipe"></app-recipe>
+        <app-recipe *ngFor="let recipe of recipes | slice: 0:recipesToShow" [recipe]="recipe"></app-recipe>
+        <div class="break"></div> <!-- Flexbox line break -->
+        <button *ngIf="recipes && recipesToShow >= 5 && recipes.length >= 5" (click)="toggleRecipesToShow()">
+          {{ recipesToShow === 5 ? 'Show More...' : 'Show Less...' }}
+        </button>
       </div>
     </mat-tab>
     <mat-tab label="Grocery Lists">
       <br><br>
       <p style="text-align: center;">We're sorry, this content is not available yet.</p>
     </mat-tab>
-    <mat-tab label="Pantry Analysis">
+    <mat-tab label="Ingredient List">
       <div class="mx-2 my-2">
         <div class="fw-bold text-uppercase">In stock:</div>
         <span *ngFor="let ingredient of getAvailableIngredientsArray(); let last=last">{{ingredient.ingredientName}}<ng-container *ngIf="!last">, </ng-container> </span>
