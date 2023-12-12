@@ -10,6 +10,7 @@
         <ng-template #saving><mat-progress-bar mode="buffer" class="saveProgress"></mat-progress-bar></ng-template>
       </ng-container>
     </div>
+    <app-search-bar></app-search-bar>
     <div ngbAccordion id="ingredientGroupAccordionList">
       <div ngbAccordionItem *ngFor="let group of pantry.ingredientGroups" [id]="group.description">
         <h2 ngbAccordionHeader>

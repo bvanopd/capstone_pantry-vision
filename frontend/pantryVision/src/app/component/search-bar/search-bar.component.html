@@ -1,0 +1,11 @@
+<form class="search" >
+  <mat-form-field style="width: 100%">
+    <input #autocompleteInput type="text" placeholder="Enter ingredient" matInput [formControl]="pantryFormControl"
+        [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFunc">
+        <mat-option *ngFor="let ingredient of autoCompleteList" [value]="ingredient" (onSelectionChange)="toggleIngredient($event)">
+          {{ingredient.ingredientName}} <span *ngIf="this.pantry.isIngredientAvailable(ingredient)" style="opacity: 50%; font-size: small;">remove from pantry</span>
+        </mat-option>
+      </mat-autocomplete>
+  </mat-form-field>
+</form>
