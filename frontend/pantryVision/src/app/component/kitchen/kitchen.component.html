@@ -11,7 +11,6 @@
         <button *ngIf="recipes && recipesToShow >= 5 && recipes.length >= 5" (click)="toggleRecipesToShow()">
           {{ recipesToShow === 5 ? 'Show More...' : 'Show Less...' }}
         </button>
-        <app-recipe *ngFor="let recipe of recipes" [recipe]="recipe" [availableIngredients]="availableIngredients" [groceryList]="groceryLists[0]"></app-recipe>
       </div>
     </mat-tab>
     <mat-tab label="Grocery Lists" (click)="setupGroceryLists()">
