@@ -25,4 +25,13 @@ export class UserService {
   getPrivate(): Observable<string> {
     return this.httpClient.get<string>("/api/private");
   }
+  saveRecipe(id: string): Observable<any> {
+    return this.httpClient
+      .put("/api/user/saveRecipe.do", id)
+      .pipe(catchError((error) => { return error; })
+    );
+  }
+  getSavedRecipes(): Observable<string> {
+    return this.httpClient.get<string>("/api/user/getSavedRecipes.do");
+  }
 }

@@ -42,6 +42,20 @@ public class UserController {
         return ResponseEntity.ok("{\"message\": \"" + ingredients +"\"}");
     }
 
+    @GetMapping("/user/getSavedRecipes.do")
+    public ResponseEntity<String> getSavedRecipes(@AuthenticationPrincipal Jwt jwt) {
+        addUserIfNotFound(jwt.getSubject());
+        User user = userRepository.findByUserName(jwt.getSubject());
+        return ResponseEntity.ok("{\"pantry\": \"" + user.getSavedRecipes() + "\"}");
+    }
+
+    @PutMapping("/user/saveRecipe.do")
+    public ResponseEntity<String> saveRecipe(@AuthenticationPrincipal Jwt jwt, @RequestBody String recipeIds ) {
+        addUserIfNotFound(jwt.getSubject());
+        userRepository.updateUserRecipesByUserName(jwt.getSubject(), recipeIds);
+        return ResponseEntity.ok("{\"message\": \"" + recipeIds +"\"}");
+    }
+
     private void addUserIfNotFound(String userName) {
         if(userRepository.findByUserName(userName) == null) {
             userRepository.save(new User(userName));

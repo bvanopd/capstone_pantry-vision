@@ -54,6 +54,8 @@ import { MatInputModule } from '@angular/material/input';
           "/api/private",
           "/api/user/getPantry.do",
           "/api/user/setPantry.do",
+          "/api/user/getSavedRecipes.do",
+          "/api/user/saveRecipe.do"
         ]
       }
     }),

@@ -60,6 +60,7 @@ export class KitchenComponent {
     this.spoonacularService.getRecipesByIngredients(ingredientList).subscribe((data: RecipeItem[]) => {
       this.recipes = data.map(item => new Recipe(item));
     });
+    console.log(this.recipes[0].id);
   }
 
 }

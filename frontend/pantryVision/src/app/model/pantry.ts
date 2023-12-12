@@ -17,8 +17,12 @@ export class Pantry {
       const currentAvailability = this.ingredientAvailability.get(ingredient);
       this.ingredientAvailability.set(ingredient, !currentAvailability);
     }
+  }
 
-    // probably update backend from here: if (authenticated) {}
+  setAvailability(ingredient: Ingredient, value: boolean) {
+    if (this.allIngredients.includes(ingredient)) {
+      this.ingredientAvailability.set(ingredient, value);
+    }
   }
 
   get numberOfAvailableIngredients(): number {

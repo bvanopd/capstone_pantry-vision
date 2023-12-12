@@ -19,6 +19,9 @@ public class User {
     @Column(name = "pantry_items", length = 65555)
     private String pantryItems;
 
+    @Column(name = "saved_recipes", length = 65555)
+    private String savedRecipes;
+
     public User() {
     }
 
@@ -26,6 +29,7 @@ public class User {
         super();
         this.userName = userName;
         this.pantryItems = "";
+        this.savedRecipes = "";
     }
 
     public long getId() {
@@ -45,4 +49,6 @@ public class User {
     }
 
     public String getPantryItems() { return pantryItems; }
+
+    public String getSavedRecipes() { return savedRecipes; }
 }
