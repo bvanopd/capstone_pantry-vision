@@ -16,11 +16,6 @@ public class GroceryList {
     @Column(name = "grocery_list_ingredients", length = 65555)
     private String groceryListIngredients;
 
-    @ManyToOne
-    @JoinColumn(name = "grocery_list_user_id", nullable = false)
-    private User getUserId() {
-      return null;
-    };
     @Column(name = "grocery_list_user_id", nullable = false)
     private long userId;
 
@@ -54,10 +49,6 @@ public class GroceryList {
     }
 
     public String getGroceryListItems() { return this.groceryListIngredients; }
-
-    public long getUserId() {
-        return userId;
-    }
 
     public void setUserId(long userId) {
         this.userId = userId;
