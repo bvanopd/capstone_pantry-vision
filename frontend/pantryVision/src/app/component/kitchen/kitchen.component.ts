@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { PantryService } from '../../service/pantry.service';
-import { combineLatest, Observable, Subscription} from 'rxjs';
+import { Observable, Subscription} from 'rxjs';
 import { Pantry } from '../../model/pantry';
 import { Ingredient } from '../../model/ingredient';
 import { AuthService } from '@auth0/auth0-angular';
@@ -33,6 +33,8 @@ export class KitchenComponent {
   public pantry: Pantry;
   pantrySub: Subscription;
   recipes: Recipe[];
+  // This is the kind of thing we would want to store in the database
+  recipesToShow: number = 5;
 
   constructor(private pantryService: PantryService,
               private auth: AuthService,
@@ -53,16 +55,6 @@ export class KitchenComponent {
     return Array.from(this.pantry.ingredientAvailability.entries())
       .filter(([ingredient, isAvailable]) => isAvailable)
       .map(([ingredient]) => ingredient);
-  }
-
-  testRecipe() {
-    let testRecipe = new Recipe({
-      id: 1,
-      image: '../../assets/anh-nguyen-kcA-c3f_3FE-unsplash.jpg',
-      title: 'Test Recipe',
-      usedIngredients: [{name:'Ingredient 1'}, {name:'Ingredient 2'}, {name:'Ingredient 3'}]
-    });
-    this.recipes = [testRecipe];
   }
 
   getRecipes() {
@@ -86,6 +78,10 @@ export class KitchenComponent {
         data: data
       });
     });
+  }
+
+  toggleRecipesToShow() {
+    this.recipesToShow = this.recipesToShow === 5 ? this.recipes.length : 5;
   }
 
 }
