@@ -6,7 +6,11 @@
       <p style="text-align: center;">List of Recipes based on your Pantry. Click on a Recipe to view details.</p>
       <button mat-raised-button color="primary" (click)="getRecipes()">Find Recipes!</button>
       <div id="recipeContainer">
-        <app-recipe *ngFor="let recipe of recipes" [recipe]="recipe"></app-recipe>
+        <app-recipe *ngFor="let recipe of recipes | slice: 0:recipesToShow" [recipe]="recipe"></app-recipe>
+        <div class="break"></div> <!-- Flexbox line break -->
+        <button *ngIf="recipes && recipesToShow >= 5 && recipes.length >= 5" (click)="toggleRecipesToShow()">
+          {{ recipesToShow === 5 ? 'Show More...' : 'Show Less...' }}
+        </button>
       </div>
     </mat-tab>
     <mat-tab label="Grocery Lists">
