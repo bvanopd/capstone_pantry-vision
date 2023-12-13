@@ -1,7 +1,7 @@
 <div id="pantry">
   <h2 id="myPantry">My Pantry</h2>
-  <mat-progress-spinner mode="indeterminate" diameter="100" *ngIf="isLoading"></mat-progress-spinner>
   <div>
+    <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="100" style="margin:4em auto;"></mat-progress-spinner>
     <div id="pantryInfo">
       <p>Total Ingredients: {{ pantry.numberOfAvailableIngredients }}</p>
       <ng-container *ngIf="!isLoading && authenticated">
@@ -10,8 +10,8 @@
         <ng-template #saving><mat-progress-bar mode="buffer" class="saveProgress"></mat-progress-bar></ng-template>
       </ng-container>
     </div>
-    <app-search-bar></app-search-bar>
-    <div ngbAccordion id="ingredientGroupAccordionList">
+    <app-search-bar *ngIf="!isLoading"></app-search-bar>
+    <div *ngIf="!isLoading" ngbAccordion id="ingredientGroupAccordionList">
       <div ngbAccordionItem *ngFor="let group of pantry.ingredientGroups" [id]="group.description">
         <h2 ngbAccordionHeader>
           <button ngbAccordionButton>

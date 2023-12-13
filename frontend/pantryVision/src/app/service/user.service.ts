@@ -13,9 +13,6 @@ export class UserService {
   getUserListFromDb(): Observable<User[]> {
     return this.httpClient.get<User[]>("/api/users/listAll.do");
   }
-  getPrivate(): Observable<string> {
-    return this.httpClient.get<string>("/api/private");
-  }
   getUserPantry(): Observable<any> {
     return this.httpClient.get<string>("/api/user/getPantry.do");
   }
@@ -27,14 +24,5 @@ export class UserService {
   }
   getUserId(): Observable<any> {
     return this.httpClient.get<string>("/api/user/getUserId.do");
-  }
-  saveRecipe(id: string): Observable<any> {
-    return this.httpClient
-      .put("/api/user/saveRecipe.do", id)
-      .pipe(catchError((error) => { return error; })
-    );
-  }
-  getSavedRecipes(): Observable<string> {
-    return this.httpClient.get<string>("/api/user/getSavedRecipes.do");
   }
 }

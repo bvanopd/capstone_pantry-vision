@@ -1,6 +1,7 @@
 <div id="kitchen">
   <h2 id="myPantry">My Kitchen</h2>
-  <mat-tab-group preserveContent="true" animationDuration="0ms">
+  <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="100" style="margin:4em auto;"></mat-progress-spinner>
+  <mat-tab-group *ngIf="!isLoading" preserveContent="true" animationDuration="0ms">
     <mat-tab label="Recipes">
       <br><br>
       <p style="text-align: center;">List of Recipes based on your Pantry. Click on a Recipe to view details.</p>
@@ -37,16 +38,18 @@
       </div>
     </mat-tab>
     <mat-tab *ngIf="user$ | async as user" label="Profile">
-      <p style="text-align: center;">Name: {{ user.name }}</p>
-      <p style="text-align: center;">Email: {{ user.email }}</p>
-      <p style="text-align: center;"><b>More profile data coming soon</b></p>
-        
-      <table>
-        <td><h2>Saved Recipes</h2></td>
-        <tr *ngFor="let savedRecipe of savedRecipes">
-          {{ savedRecipe.title }}
-        </tr>
-      </table>
+      <div style="height: 100%;">
+        <p style="text-align: center;">Name: {{ user.name }}</p>
+        <p style="text-align: center;">Email: {{ user.email }}</p>
+          
+        <table id="savedRecipesTable">
+          <th><h2>Saved Recipes</h2></th>
+          <tr *ngFor="let savedRecipe of savedRecipes">
+            <td class="savedRecipe" (click)="openSavedRecipe(savedRecipe)">{{ savedRecipe.title }}</td>
+            <td><button mat-raised-button color="accent" (click)="unsaveRecipe(savedRecipe)">Remove</button></td>
+          </tr>
+        </table>
+      </div>
     </mat-tab>
   </mat-tab-group>
 </div>

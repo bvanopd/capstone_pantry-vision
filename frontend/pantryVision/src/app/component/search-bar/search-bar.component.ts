@@ -1,6 +1,6 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Ingredient } from 'src/app/model/ingredient';
 import { Pantry } from 'src/app/model/pantry';
 import { PantryService } from 'src/app/service/pantry.service';

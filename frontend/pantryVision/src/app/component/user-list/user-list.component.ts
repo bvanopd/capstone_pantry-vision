@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {User} from "../../model/user";
-import {BehaviorSubject, first, Subscription, take} from "rxjs";
+import {Subscription, take} from "rxjs";
 import {UserService} from "../../service/user.service";
 import {FormControl} from "@angular/forms";
 
