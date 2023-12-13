@@ -92,12 +92,11 @@ export class KitchenComponent {
     )
   }
 
-  createGroceryList(title: string) {
+  async createGroceryList(title: string) {
     if (title == "") title = "My list";
 
-    this.subscriptions.push(
-      this.groceryService.addGroceryList(title).subscribe()
-    )
+    await firstValueFrom(this.groceryService.addGroceryList(title))
+
     this.setupGroceryLists();
   }
 
