@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("/api")
 public class UserController {
 
     @Autowired
@@ -42,6 +42,13 @@ public class UserController {
         return ResponseEntity.ok("{\"message\": \"" + ingredients +"\"}");
     }
 
+    @GetMapping("/user/getUserId.do")
+    public ResponseEntity<String> getUserId(@AuthenticationPrincipal Jwt jwt) {
+        addUserIfNotFound(jwt.getSubject());
+        User user = userRepository.findByUserName(jwt.getSubject());
+        return ResponseEntity.ok("{\"id\": \"" + user.getId() + "\"}");
+    }
+
     @GetMapping("/user/getSavedRecipes.do")
     public ResponseEntity<String> getSavedRecipes(@AuthenticationPrincipal Jwt jwt) {
         addUserIfNotFound(jwt.getSubject());
@@ -53,7 +60,7 @@ public class UserController {
     public ResponseEntity<String> saveRecipe(@AuthenticationPrincipal Jwt jwt, @RequestBody String recipeIds ) {
         addUserIfNotFound(jwt.getSubject());
         userRepository.updateUserRecipesByUserName(jwt.getSubject(), recipeIds);
-        return ResponseEntity.ok("{\"message\": \"" + recipeIds +"\"}");
+        return ResponseEntity.ok("{\"message\": \"" + recipeIds + "\"}");
     }
 
     private void addUserIfNotFound(String userName) {

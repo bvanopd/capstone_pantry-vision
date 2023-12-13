@@ -13,14 +13,27 @@
         </button>
       </div>
     </mat-tab>
-    <mat-tab label="Grocery Lists">
+    <mat-tab label="Grocery Lists" (click)="setupGroceryLists()">
       <br><br>
-      <p style="text-align: center;">We're sorry, this content is not available yet.</p>
+      <div>
+        <input #box placeholder="new list" />
+        <button mat-raised-button color="primary" (click)="createGroceryList(box.value)">Create a list?</button>
+      </div>
+      <ng-template *ngIf="!groceryLists || groceryLists.length < 1; else userHasLists">
+        <p style="text-align: center;">You have no grocery lists.</p>
+      </ng-template>
+      <ng-template #userHasLists>
+        <div class="groceryListContainer">
+          <div *ngFor="let list of groceryLists">
+            <app-grocery-list [groceryList]="list"></app-grocery-list>
+          </div>
+        </div>
+      </ng-template>
     </mat-tab>
     <mat-tab label="Ingredient List">
       <div class="mx-2 my-2">
         <div class="fw-bold text-uppercase">In stock:</div>
-        <span *ngFor="let ingredient of getAvailableIngredientsArray(); let last=last">{{ingredient.ingredientName}}<ng-container *ngIf="!last">, </ng-container> </span>
+        <span *ngFor="let ingredient of availableIngredients; let last=last">{{ ingredient }}<ng-container *ngIf="!last">, </ng-container> </span>
       </div>
     </mat-tab>
     <mat-tab *ngIf="user$ | async as user" label="Profile">

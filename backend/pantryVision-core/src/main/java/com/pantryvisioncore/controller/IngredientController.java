@@ -30,13 +30,11 @@ public class IngredientController {
         return ingredientGroupRepository.findAll();
     }
 
-
     // Get the entire list of ingredients
     @GetMapping("/ingredients/listAll.do")
     public List<Ingredient> getAllIngredients() {
         return ingredientRepository.findAll();
     }
-
 
     // All ingredients that have a groupID
     @GetMapping("/ingredients/groupedIngredients.do")
@@ -46,12 +44,18 @@ public class IngredientController {
         return ingredients;
     }
 
-    // Get Ingredients BY groupID
+    // Get ingredients BY groupID
     @GetMapping("/ingredients/ingredientsByGroupId.do")
     public List<Ingredient> getIngredientsByGroupId(@RequestParam("groupId") int groupId) {
         List<Ingredient> ingredients = ingredientRepository.findByIngredientGroupId(groupId);
         ingredients.sort(Comparator.comparing(Ingredient::getIngredientGroupId));
         return ingredients;
+    }
+
+    // Get a single ingredient BY id
+    @GetMapping("/ingredients/ingredientById.do")
+    public Ingredient getIngredientsById(@RequestParam("ingredientId") int ingredientId) {
+        return ingredientRepository.findByIngredientId(ingredientId);
     }
 
     // All ingredients that dont have a group

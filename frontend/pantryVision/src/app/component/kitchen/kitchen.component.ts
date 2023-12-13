@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
 import { PantryService } from '../../service/pantry.service';
-import { Observable, Subscription} from 'rxjs';
+import { Subject, Subscription, firstValueFrom, lastValueFrom, takeUntil, Observable } from 'rxjs';
 import { Pantry } from '../../model/pantry';
 import { Ingredient } from '../../model/ingredient';
 import { AuthService } from '@auth0/auth0-angular';
 import { Recipe } from "../../model/recipe";
 import { SpoonacularService } from "../../service/spoonacular.service";
+import { GroceryService } from 'src/app/service/grocery.service';
+import { GroceryList } from 'src/app/model/groceryList';
+import { UserService } from 'src/app/service/user.service';
 import { MatDialog } from "@angular/material/dialog";
 import { RecipeDetailsComponent } from "../recipe-details-component/recipe-details.component";
-import { UserService } from 'src/app/service/user.service';
+
 
 interface RecipeItem {
   id: number;
@@ -41,59 +44,67 @@ export class KitchenComponent {
   recipes: Recipe[];
   // This is the kind of thing we would want to store in the database
   recipesToShow: number = 5;
+  savedRecipes: SavedRecipe[] = [];
 
   constructor(private pantryService: PantryService,
               private auth: AuthService,
               private spoonacularService: SpoonacularService,
-              private userService: UserService,
-              private dialog: MatDialog) {}
+              private dialog: MatDialog,
+              private groceryService: GroceryService,
+              private userService: UserService) {}
 
+  subscriptions: Subscription[] = [];
   user$ = this.auth.user$;
-  isLoading: boolean;
-  authenticated: boolean;
-  savedRecipes: SavedRecipe[] = [];
+  userId: number;
+  availableIngredients: string[];
+  groceryLists: GroceryList[];
 
   ngOnInit() {
     this.pantrySub = this.pantryService.currentPantry.subscribe(pantry => this.pantry = pantry);
-    this.authorizeAndLoad();
+    this.initializeAvailableIngredients();
+    this.setupGroceryLists();
+  }
+
+  async setupGroceryLists() {
+    this.groceryService.getGroceryLists().subscribe((data: GroceryList[]) => {
+      this.groceryLists = data.map(list => GroceryList.fromDataObject(list))
+    })
+  }
+
+  private async initializeAvailableIngredients() {
+    this.availableIngredients = (await this.getAvailableIngredientsArray()).map(ingredient => ingredient.ingredientName);
   }
 
   ngOnDestroy() {
-    this.pantrySub.unsubscribe();
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  private async authorizeAndLoad(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      this.auth.isLoading$.subscribe(loading => {
-        this.isLoading = loading;
-      });
-      let authSub = this.auth.isAuthenticated$.subscribe(async status => {
-        this.authenticated = status;
-        if (!this.isLoading && this.authenticated) {
-          this.parseSavedRecipes();
-          authSub.unsubscribe();
-          resolve();
-        }
-        else if (!this.isLoading && !this.authenticated) {
-          authSub.unsubscribe();
-          resolve();
-        }
-      });
+  getAvailableIngredientsArray(): Promise<Ingredient[]> {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const availableIngredients = Array.from(this.pantry.ingredientAvailability.entries())
+          .filter(([ingredient, isAvailable]) => isAvailable)
+          .map(([ingredient]) => ingredient);
+        resolve(availableIngredients);
+      }, 2000);
     });
-  }
-
-  getAvailableIngredientsArray(): Ingredient[] {
-    return Array.from(this.pantry.ingredientAvailability.entries())
-      .filter(([ingredient, isAvailable]) => isAvailable)
-      .map(([ingredient]) => ingredient);
   }
 
   getRecipes() {
-    let ingredientList = this.getAvailableIngredientsArray().map(ingredient => ingredient.ingredientName);
-    this.spoonacularService.getRecipesByIngredients(ingredientList).subscribe((data: RecipeItem[]) => {
-      this.recipes = data.map(item => new Recipe(item));
-    });
-    console.log(this.recipes[0].id);
+    this.subscriptions.push(
+      this.spoonacularService.getRecipesByIngredients(this.availableIngredients).subscribe((data: RecipeItem[]) => {
+        this.recipes = data.map(item => new Recipe(item));
+      })
+    )
+  }
+
+  createGroceryList(title: string) {
+    if (title == "") title = "My list";
+
+    this.subscriptions.push(
+      this.groceryService.addGroceryList(title).subscribe()
+    )
+    this.setupGroceryLists();
   }
 
   getRecipeDetails(recipeId: number): Observable<any> {
