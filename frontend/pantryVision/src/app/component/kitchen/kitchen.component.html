@@ -34,7 +34,9 @@
     <mat-tab label="Ingredient List">
       <div class="mx-2 my-2">
         <div class="fw-bold text-uppercase">In stock:</div>
-        <span *ngFor="let ingredient of availableIngredients; let last=last">{{ ingredient }}<ng-container *ngIf="!last">, </ng-container> </span>
+        <ul>
+        <li *ngFor="let ingredient of getAvailableIngredientsArray(); let last=last">{{ingredient.ingredientName}}<ng-container *ngIf="!last"> </ng-container> </li>
+        </ul>
       </div>
     </mat-tab>
     <mat-tab *ngIf="user$ | async as user" label="Profile">

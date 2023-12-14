@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { ReactiveFormsModule } from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { UserMenuComponent } from './component/user-menu/user-menu.component';
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { PantryComponent } from './component/pantry/pantry.component';
@@ -64,7 +64,9 @@ import { MatDividerModule } from '@angular/material/divider';
           "/api/user/getUserId.do",
           "/api/groceryList/getAll.do",
           "/api/groceryList/add.do",
-          "/api/groceryList/addItem.do"
+          "/api/groceryList/addItem.do",
+          "/api/groceryList/removeItem.do",
+          "/api/groceryList/remove.do"
         ]
       }
     }),
@@ -85,6 +87,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MatInputModule,
     MatDialogModule,
     MatDividerModule,
+    FormsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },

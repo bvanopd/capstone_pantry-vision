@@ -15,6 +15,6 @@ export class GroceryList {
     this.groceryListUserId = userId
   }
   static fromDataObject(data: any) {
-    return new GroceryList(data.groceryListTitle, data.groceryListItems, data.id, data.userId)
+    return new GroceryList(data.groceryListTitle, data.groceryListIngredients, data.groceryListId, data.userId)
   }
 }

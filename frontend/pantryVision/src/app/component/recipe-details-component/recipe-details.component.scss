@@ -7,3 +7,29 @@
 .missingIngredients {
   color: red;
 }
+
+li {
+  margin-bottom: 10px;
+}
+
+.ingredient-container {
+  display: flex;
+  align-items: center;
+}
+
+.ingredientName {
+  width: 50%;
+  max-width: 400px;
+}
+
+.ingredientAddButtonContainer {
+  width: 50%;
+}
+
+button.detailsCloseButton {
+  margin-top: 15px;
+}
+
+#groceryListSelect {
+  margin-left: 10px;
+}

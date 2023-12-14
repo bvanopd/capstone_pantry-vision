@@ -1,29 +1,62 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { GroceryList } from '../model/groceryList';
+import { map } from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
 })
 export class GroceryService {
+  private groceryListsSubject = new BehaviorSubject<GroceryList[]>([]);
+  groceryLists$ = this.groceryListsSubject.asObservable();
+
   constructor(private httpClient: HttpClient) {
   }
 
-  getGroceryListById(groceryListId: number): Observable<GroceryList[]> {
-    return this.httpClient.get<GroceryList[]>(`/api/groceryList/groceryListById.do?groceryListId=${groceryListId}`);
+  updateGroceryLists() {
+    this.getGroceryLists().subscribe((groceryLists: GroceryList[]) => {
+      this.groceryListsSubject.next(groceryLists);
+    });
   }
 
-  getGroceryLists(): Observable<any> {
-    return this.httpClient.get<string>("/api/groceryList/getAll.do");
+  // We need to map the response objects so we can get the property names correct
+  getGroceryLists(): Observable<GroceryList[]> {
+    return this.httpClient.get<any[]>("/api/groceryList/getAll.do").pipe(
+      map(lists => lists.map(list => {
+        return {
+          groceryListId: list.id,
+          groceryListTitle: list.groceryListTitle,
+          groceryListIngredients: list.groceryListItems,
+          groceryListUserId: list.userId
+        };
+      }))
+    );
   }
 
   addGroceryList(groceryListTitle: string): Observable<any> {
     return this.httpClient.put("/api/groceryList/add.do", groceryListTitle);
   }
 
-  addToGroceryList(ingredientName: string): Observable<any> {
-    return this.httpClient.put("/api/groceryList/addItem.do", ingredientName);
+  removeGroceryList(groceryListTitle: string): Observable<any> {
+    return this.httpClient.put("/api/groceryList/remove.do", groceryListTitle);
   }
-  
+
+  addIngredient(ingredientName: string, groceryListId: number): Observable<any> {
+
+    const body = {
+      ingredientName: ingredientName,
+      groceryListId: groceryListId
+    };
+    return this.httpClient.put("/api/groceryList/addItem.do", body);
+  }
+
+  removeIngredient(ingredientName: string, groceryListId: number): Observable<any> {
+
+    const body = {
+      ingredientName: ingredientName,
+      groceryListId: groceryListId
+    };
+    return this.httpClient.put("/api/groceryList/removeItem.do", body);
+  }
 }

@@ -3,7 +3,6 @@ import { Recipe } from "../../../model/recipe";
 import { KitchenComponent } from "../../kitchen/kitchen.component";
 import { GroceryService } from 'src/app/service/grocery.service';
 import { GroceryList } from 'src/app/model/groceryList';
-import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-recipe',
@@ -22,15 +21,4 @@ export class RecipeComponent {
   onRecipeClick(): void {
     this.kitchenComponent.openRecipeDetailsModal(this.recipe);
   }
-
-  async addItemToList(ingredientName: string) {
-    if (!this.groceryList || !this.groceryService.getGroceryLists()) {
-      await lastValueFrom(this.groceryService.addGroceryList("My list"));
-      await lastValueFrom(this.groceryService.addToGroceryList(ingredientName));
-    } else if (!this.groceryList.groceryListIngredients.includes(ingredientName)) {
-      await lastValueFrom(this.groceryService.addToGroceryList(ingredientName));
-    }
-  }
-
-  
 }
