@@ -5,7 +5,8 @@
     <mat-tab label="Recipes">
       <br><br>
       <p style="text-align: center;">List of Recipes based on your Pantry. Click on a Recipe to view details.</p>
-      <button mat-raised-button color="primary" (click)="getRecipes()">Find Recipes!</button>
+      <p *ngIf="pantry.listOfAvailableIngredients.length < 1" style="text-align: center;">Please add pantry items to find recipes.</p>
+      <button *ngIf="pantry.listOfAvailableIngredients.length > 1" mat-raised-button color="primary" (click)="getRecipes()">Find Recipes!</button>
       <div id="recipeContainer">
         <app-recipe *ngFor="let recipe of recipes | slice: 0:recipesToShow" [recipe]="recipe"></app-recipe>
         <div class="break"></div> <!-- Flexbox line break -->
@@ -14,7 +15,7 @@
         </button>
       </div>
     </mat-tab>
-    <mat-tab label="Grocery Lists" (click)="setupGroceryLists()">
+    <mat-tab *ngIf="user$ | async as user" label="Grocery Lists" (click)="setupGroceryLists()">
       <br><br>
       <div>
         <input #box placeholder="new list" />

@@ -71,7 +71,6 @@ export class KitchenComponent {
     this.subscriptions.push(this.savedRecipeSub);
     this.initializeAvailableIngredients();
     this.setupGroceryLists();
-    this.authorizeAndLoad();
   }
 
   async setupGroceryLists() {
@@ -79,6 +78,7 @@ export class KitchenComponent {
       this.groceryLists = data.map(list => GroceryList.fromDataObject(list))
     })
     this.subscriptions.push(this.grocerySub);
+    await this.authorizeAndLoad();
   }
 
   private async initializeAvailableIngredients() {
