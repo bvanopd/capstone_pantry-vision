@@ -3,8 +3,7 @@ import { Recipe } from "../../../model/recipe";
 import { KitchenComponent } from "../../kitchen/kitchen.component";
 import { GroceryService } from 'src/app/service/grocery.service';
 import { GroceryList } from 'src/app/model/groceryList';
-import { lastValueFrom, switchMap } from 'rxjs';
-import { UserService } from 'src/app/service/user.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-recipe',
@@ -16,8 +15,9 @@ export class RecipeComponent {
   @Input() availableIngredients: String[];
   @Input() groceryList: GroceryList;
 
-  constructor(private kitchenComponent: KitchenComponent,
-              private groceryService: GroceryService) {}
+  constructor(
+    private kitchenComponent: KitchenComponent,
+    private groceryService: GroceryService) {}
 
   onRecipeClick(): void {
     this.kitchenComponent.openRecipeDetailsModal(this.recipe);
@@ -31,4 +31,6 @@ export class RecipeComponent {
       await lastValueFrom(this.groceryService.addToGroceryList(ingredientName));
     }
   }
+
+  
 }

@@ -57,6 +57,10 @@ export class PantryComponent {
           authSub.unsubscribe();
           resolve();
         }
+        else if (!this.isLoading && !this.authenticated) {
+          authSub.unsubscribe();
+          resolve();
+        }
       });
     });
   }

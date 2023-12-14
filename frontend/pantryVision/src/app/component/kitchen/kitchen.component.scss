@@ -17,6 +17,23 @@ h2 {
   height: 65vh;
 }
 
+#savedRecipesTable {
+  margin: 0 auto;
+  padding: 1em;
+  width: 100%;
+  border: #242525;
+  border-radius: 1em;
+}
+
+#savedRecipesTable tr,th {
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+}
+
+#savedRecipesTable tr:nth-child(even) {
+  background-color: #bdf1f1;
+}
+
 @media screen and (max-height: 1000px) {
   #kitchen {
     height: 83vh;

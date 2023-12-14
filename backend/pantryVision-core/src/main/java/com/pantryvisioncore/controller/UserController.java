@@ -17,17 +17,6 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    // Get all users
-    @GetMapping("/users/listAll.do")
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
-
-    @GetMapping("/private")
-    public ResponseEntity<String> privateEndpoint(@AuthenticationPrincipal Jwt jwt) {
-        return ResponseEntity.ok("{\"message\": \"" + String.format("Hello, %s!", jwt.getSubject()) + "\"}");
-    }
-
     @GetMapping("/user/getPantry.do")
     public ResponseEntity<String> getPantry(@AuthenticationPrincipal Jwt jwt) {
         addUserIfNotFound(jwt.getSubject());
@@ -47,6 +36,20 @@ public class UserController {
         addUserIfNotFound(jwt.getSubject());
         User user = userRepository.findByUserName(jwt.getSubject());
         return ResponseEntity.ok("{\"id\": \"" + user.getId() + "\"}");
+    }
+
+    @GetMapping("/user/getSavedRecipes.do")
+    public ResponseEntity<String> getSavedRecipes(@AuthenticationPrincipal Jwt jwt) {
+        addUserIfNotFound(jwt.getSubject());
+        User user = userRepository.findByUserName(jwt.getSubject());
+        return ResponseEntity.ok("{\"recipes\": \"" + user.getSavedRecipes() + "\"}");
+    }
+
+    @PutMapping("/user/saveRecipe.do")
+    public ResponseEntity<String> saveRecipe(@AuthenticationPrincipal Jwt jwt, @RequestBody String recipeIds ) {
+        addUserIfNotFound(jwt.getSubject());
+        userRepository.updateUserRecipesByUserName(jwt.getSubject(), recipeIds);
+        return ResponseEntity.ok("{\"message\": \"" + recipeIds + "\"}");
     }
 
     private void addUserIfNotFound(String userName) {

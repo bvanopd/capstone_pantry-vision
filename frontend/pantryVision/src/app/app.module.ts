@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AuthModule } from '@auth0/auth0-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { UserListComponent } from "./component/user-list/user-list.component";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -33,7 +32,6 @@ import { MatDividerModule } from '@angular/material/divider';
 @NgModule({
   declarations: [
     AppComponent,
-    UserListComponent,
     UserMenuComponent,
     PantryComponent,
     HeaderComponent,
@@ -61,6 +59,8 @@ import { MatDividerModule } from '@angular/material/divider';
           "/api/private",
           "/api/user/getPantry.do",
           "/api/user/setPantry.do",
+          "/api/user/getSavedRecipes.do",
+          "/api/user/saveRecipe.do",
           "/api/user/getUserId.do",
           "/api/groceryList/getAll.do",
           "/api/groceryList/add.do",
