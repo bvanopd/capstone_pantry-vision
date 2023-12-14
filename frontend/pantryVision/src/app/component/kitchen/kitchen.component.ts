@@ -51,18 +51,23 @@ export class KitchenComponent {
   user$ = this.auth.user$;
   userId: number;
   availableIngredients: string[];
-  groceryLists: GroceryList[];
+  groceryLists = this.groceryService.groceryLists;
+  MAX_LISTS = this.groceryService.MAX_LISTS;
 
   ngOnInit() {
     this.pantrySub = this.pantryService.currentPantry.subscribe(pantry => this.pantry = pantry);
     this.initializeAvailableIngredients();
-    this.setupGroceryLists();
+
+    setInterval(async () => {
+      if (this.groceryService.groceryLists == undefined || this.groceryLists == undefined || this.groceryLists.length != this.groceryService.groceryLists.length) {
+        await this.setupGroceryLists();
+      }
+    }, 3000);
   }
 
   async setupGroceryLists() {
-    this.groceryService.getGroceryLists().subscribe((data: GroceryList[]) => {
-      this.groceryLists = data.map(list => GroceryList.fromDataObject(list))
-    })
+    await this.groceryService.setupGroceryLists();
+    this.groceryLists = this.groceryService.groceryLists;
   }
 
   private async initializeAvailableIngredients() {

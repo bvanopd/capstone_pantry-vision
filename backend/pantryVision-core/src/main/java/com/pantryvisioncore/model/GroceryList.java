@@ -8,9 +8,10 @@ public class GroceryList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "grocery_list_id")
     private long groceryListId;
 
-    @Column(name = "grocery_list_title")
+    @Column(name = "grocery_list_title", nullable = false)
     private String groceryListTitle;
 
     @Column(name = "grocery_list_ingredients", length = 65555)

@@ -31,6 +31,13 @@ public class GroceryListController {
         groceryListRepository.save(groceryList);
         return ResponseEntity.ok("{\"message\": \"Grocery list added successfully\"}");
     }
+    
+    // Delete a grocery list BY id
+    @DeleteMapping("/groceryList/delete.do")    
+    public ResponseEntity<String> deleteByGroceryListId(@RequestParam Long groceryListId) {
+        groceryListRepository.deleteById(groceryListId);
+        return ResponseEntity.ok("{\"message\": \"Grocery list deleted successfully\"}");
+    }
 
     // Add item to user grocery list
     @PutMapping("/groceryList/addItem.do")

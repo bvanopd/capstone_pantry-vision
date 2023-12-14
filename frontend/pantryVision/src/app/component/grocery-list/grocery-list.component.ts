@@ -1,8 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { Subscription, firstValueFrom, lastValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { GroceryList } from 'src/app/model/groceryList';
-import { IngredientService } from 'src/app/service/ingredient.service';
-import { PantryService } from 'src/app/service/pantry.service';
+import { GroceryService } from 'src/app/service/grocery.service';
 
 @Component({
   selector: 'app-grocery-list',
@@ -11,4 +10,11 @@ import { PantryService } from 'src/app/service/pantry.service';
 })
 export class GroceryListComponent {
   @Input() groceryList: GroceryList;
+
+  constructor(private groceryService: GroceryService) {}
+
+  deleteGroceryList(listId: number) {
+    firstValueFrom(this.groceryService.deleteGroceryList(listId))
+    this.groceryService.setupGroceryLists();
+  }
 }

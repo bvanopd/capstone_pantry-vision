@@ -4,6 +4,7 @@
   margin: 2rem 1rem;
   box-shadow: -5px 0 5px lightblue, 5px 0 5px lightblue;
   padding: 5px;
+  overflow-y: hidden;
 }
 
 h2 {
@@ -47,4 +48,15 @@ h2 {
 .groceryListContainer {
   overflow-y: auto;
   max-height: 65vh;
+}
+
+.groceryManageSpace {
+  overflow: none;
+}
+button.groceryManageButton {
+  margin-left: .4rem;
+  margin-right: .4rem;
+}
+button.groceryRefreshButton {
+  float: right;
 }
