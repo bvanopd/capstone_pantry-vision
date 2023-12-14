@@ -1,7 +1,10 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { RecipeDetails } from "../kitchen/kitchen.component";
 import { SavedRecipeService } from 'src/app/service/savedRecipe.service';
+import { GroceryService } from 'src/app/service/grocery.service';
+import { ListSelectorDialogComponent } from '../list-selector-dialog/list-selector-dialog.component';
+import { GroceryList } from 'src/app/model/groceryList';
 
 @Component({
   selector: 'app-recipe-details-modal',
@@ -12,12 +15,25 @@ export class RecipeDetailsComponent {
 
   constructor(
     private savedRecipeService: SavedRecipeService,
+    private groceryService: GroceryService,
+    public dialog: MatDialog,
     public dialogRef: MatDialogRef<RecipeDetailsComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: RecipeDetails
+    @Inject(MAT_DIALOG_DATA) public data: RecipeDetails,
+    @Inject(MAT_DIALOG_DATA) public list: GroceryList
   ) { }
 
+  groceryLists = this.groceryService.groceryLists;
   onClose(): void {
     this.dialogRef.close();
+  }
+
+  chooseGroceryList = false;
+  
+  selectList(ingredientName: string): void {
+    this.dialog.open(ListSelectorDialogComponent, {
+      width: '350px',
+      data: ingredientName
+    });
   }
 
   save() {

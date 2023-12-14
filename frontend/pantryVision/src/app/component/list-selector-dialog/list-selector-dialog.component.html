@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Select a grocery list to add '{{ data }}' to</h1>
+<div mat-dialog-actions class="groceryListOptions">
+  <ul *ngFor="let list of groceryLists">
+    <li>
+      <button mat-stroked-button color="primary" [mat-dialog-close]="list" (click)="selectedList(list)" cdkFocusInitial>{{ list.groceryListTitle }}</button>
+    </li>
+  </ul>
+</div>

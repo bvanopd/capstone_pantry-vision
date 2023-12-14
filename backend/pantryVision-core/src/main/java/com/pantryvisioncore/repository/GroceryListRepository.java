@@ -8,5 +8,5 @@ import com.pantryvisioncore.model.GroceryList;
 
 public interface GroceryListRepository extends JpaRepository<GroceryList, Long> {
     List<GroceryList> findByUserId(long userId);
-    List<GroceryList> findByGroceryListId(long listId);
+    GroceryList findByGroceryListId(long listId);
 }

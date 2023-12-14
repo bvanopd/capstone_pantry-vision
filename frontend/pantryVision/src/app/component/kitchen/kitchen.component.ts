@@ -60,11 +60,11 @@ export class KitchenComponent {
 
   availableIngredients: string[];
   grocerySub: Subscription;
+  subscriptions: Subscription[] = [];
 
   groceryLists = this.groceryService.groceryLists;
   MAX_LISTS = this.groceryService.MAX_LISTS;
 
-  subscriptions: Subscription[] = [];
 
   ngOnInit() {
     this.pantrySub = this.pantryService.currentPantry.subscribe(pantry => this.pantry = pantry);

@@ -11,15 +11,21 @@ import { GroceryService } from 'src/app/service/grocery.service';
 export class GroceryListComponent {
   @Input() groceryList: GroceryList;
 
-  constructor(private groceryService: GroceryService) {}
-
+  constructor(private groceryService: GroceryService) {}  
+  
   deleteGroceryList(listId: number) {
     firstValueFrom(this.groceryService.deleteGroceryList(listId))
     this.groceryService.setupGroceryLists();
   }
   
-  removeItemFromList(ingredientName: string, listId = this.groceryList.groceryListId) {
-    firstValueFrom(this.groceryService.removeFromGroceryList(ingredientName, listId));
+  async removeItemFromList(ingredientName: string, listId = this.groceryList.groceryListId) {
+    await firstValueFrom(this.groceryService.removeFromGroceryList(ingredientName, listId));
     this.groceryService.setupGroceryLists();
+
+    // update list in this template specifically
+    const serviceList = this.groceryService.groceryLists.find(
+      list => list.groceryListId == this.groceryList.groceryListId
+    )
+    if (serviceList) this.groceryList.groceryListIngredients = serviceList.groceryListIngredients;
   }
 }

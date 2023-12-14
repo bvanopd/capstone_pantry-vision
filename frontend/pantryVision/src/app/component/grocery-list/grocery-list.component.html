@@ -3,18 +3,18 @@
     <div class="card-title">{{ groceryList.groceryListTitle }}</div>
     <button  mat-raised-button color="warn" class="groceryListRemoveButton"
      (click)="deleteGroceryList(groceryList.groceryListId)">delete list</button>
-    <ng-template *ngIf="groceryList.groceryListIngredients; else noIngredients">
+    <ng-container *ngIf="groceryList.groceryListIngredients; else noIngredients">
       <ul class="card-body">
-        <li *ngFor="let ingredient of groceryList.groceryListIngredients.split(',')"
-        >{{ ingredient }}<button mat-raised-button color="warn" class="groceryRemoveButton"
-        (click)="removeItemFromList(ingredient)">-</button>
-      </li>
-    </ul>
-  </ng-template>
-  <ng-template #noIngredients>
-    <ul class="card-body">
-      no ingredients...
-    </ul>
-  </ng-template>
+        <li class="groceryListItem" *ngFor="let ingredient of groceryList.groceryListIngredients.split(',')">
+          <p>{{ ingredient }}</p>
+          <button mat-raised-button color="warn" class="groceryRemoveButton" (click)="removeItemFromList(ingredient)">-</button>
+        </li>
+      </ul>
+    </ng-container>
+    <ng-template #noIngredients>
+      <ul class="card-body">
+        no ingredients...
+      </ul>
+    </ng-template>
   </div>
 </div>

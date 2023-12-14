@@ -28,6 +28,7 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatListModule } from '@angular/material/list';
 import { GroceryListComponent } from './component/grocery-list/grocery-list.component';
 import { MatDividerModule } from '@angular/material/divider';
+import { ListSelectorDialogComponent } from './component/list-selector-dialog/list-selector-dialog.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { MatDividerModule } from '@angular/material/divider';
     RecipeComponent,
     SearchBarComponent,
     RecipeDetailsComponent,
-    GroceryListComponent
+    GroceryListComponent,
+    ListSelectorDialogComponent
   ],
   imports: [
     BrowserModule,

@@ -41,9 +41,8 @@ public class GroceryListController {
 
     // Add item to user grocery list
     @PutMapping("/groceryList/addItem.do")
-    public ResponseEntity<String> addItemToGroceryList(@AuthenticationPrincipal Jwt jwt, @RequestBody GroceryListEditor requestData) {
-        // User user = userRepository.findByUserName(jwt.getSubject());
-        GroceryList groceryList = (GroceryList) groceryListRepository.findByGroceryListId(requestData.listId);
+    public ResponseEntity<String> addItemToGroceryList(@RequestBody GroceryListEditor requestData) {
+        GroceryList groceryList = groceryListRepository.findByGroceryListId(requestData.listId);
         groceryList.pushToIngredientList(requestData.ingredientName);
         groceryListRepository.save(groceryList);
         return ResponseEntity.ok("{\"message\": \"Item successfully added to grocery list\"}");
@@ -51,12 +50,11 @@ public class GroceryListController {
 
     // Add item to user grocery list
     @PutMapping("/groceryList/removeItem.do")
-    public ResponseEntity<String> removeItemFromGroceryList(@AuthenticationPrincipal Jwt jwt, @RequestBody GroceryListEditor requestData) {
-        // User user = userRepository.findByUserName(jwt.getSubject());
-        GroceryList groceryList = (GroceryList) groceryListRepository.findByGroceryListId(requestData.listId);
+    public ResponseEntity<String> removeItemFromGroceryList(@RequestBody GroceryListEditor requestData) {
+        GroceryList groceryList = groceryListRepository.findByGroceryListId(requestData.listId);
         groceryList.popFromIngredientList(requestData.ingredientName);
         groceryListRepository.save(groceryList);
-        return ResponseEntity.ok("{\"message\": \"Item successfully added to grocery list\"}");
+        return ResponseEntity.ok("{\"message\": \"Item successfully removed from grocery list\"}");
     }
         
     // Get all grocery lists for a user
@@ -70,9 +68,9 @@ public class GroceryListController {
     /**
      * Basic utilty class for adding/removing from grocery ingredient lists
      */
-    public class GroceryListEditor {
-        private String ingredientName;
-        private long listId;
+    private static class GroceryListEditor {
+        public String ingredientName;
+        public long listId;
     }
     
 }

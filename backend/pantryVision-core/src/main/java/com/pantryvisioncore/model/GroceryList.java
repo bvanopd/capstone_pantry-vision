@@ -66,7 +66,7 @@ public class GroceryList {
     public void popFromIngredientList(String ingredientName) {
         String str = this.groceryListIngredients;
         int index = str.indexOf(ingredientName);
-        
+
         // remove word and leading comma if there is one
         if (index != -1) {
             if (index > 0 && str.charAt(index - 1) == ',') {
@@ -75,6 +75,7 @@ public class GroceryList {
                 str = str.substring(0, index) + str.substring(index + ingredientName.length());
             }
         }
+        this.groceryListIngredients = str;
     }
 
 }

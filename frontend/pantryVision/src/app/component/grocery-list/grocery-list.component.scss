@@ -12,5 +12,14 @@ button.groceryListRemoveButton {
 
 button.groceryRemoveButton {
   height: 1.5rem;
+  width: 1.5rem;
   margin-left: .4rem;
+}
+
+.groceryListItem {
+  list-style-type: none;
+
+  * {
+    display: inline;
+  }
 }
