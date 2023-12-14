@@ -41,10 +41,20 @@ public class GroceryListController {
 
     // Add item to user grocery list
     @PutMapping("/groceryList/addItem.do")
-    public ResponseEntity<String> addItemToGroceryList(@AuthenticationPrincipal Jwt jwt, @RequestBody String ingredientId) {
-        User user = userRepository.findByUserName(jwt.getSubject());
-        GroceryList groceryList = groceryListRepository.findByUserId(user.getId()).get(0);
-        groceryList.pushToIngredientList(ingredientId);
+    public ResponseEntity<String> addItemToGroceryList(@AuthenticationPrincipal Jwt jwt, @RequestBody GroceryListEditor requestData) {
+        // User user = userRepository.findByUserName(jwt.getSubject());
+        GroceryList groceryList = (GroceryList) groceryListRepository.findByGroceryListId(requestData.listId);
+        groceryList.pushToIngredientList(requestData.ingredientName);
+        groceryListRepository.save(groceryList);
+        return ResponseEntity.ok("{\"message\": \"Item successfully added to grocery list\"}");
+    }
+
+    // Add item to user grocery list
+    @PutMapping("/groceryList/removeItem.do")
+    public ResponseEntity<String> removeItemFromGroceryList(@AuthenticationPrincipal Jwt jwt, @RequestBody GroceryListEditor requestData) {
+        // User user = userRepository.findByUserName(jwt.getSubject());
+        GroceryList groceryList = (GroceryList) groceryListRepository.findByGroceryListId(requestData.listId);
+        groceryList.popFromIngredientList(requestData.ingredientName);
         groceryListRepository.save(groceryList);
         return ResponseEntity.ok("{\"message\": \"Item successfully added to grocery list\"}");
     }
@@ -57,4 +67,12 @@ public class GroceryListController {
         return ResponseEntity.ok(groceryLists);
     }
 
+    /**
+     * Basic utilty class for adding/removing from grocery ingredient lists
+     */
+    public class GroceryListEditor {
+        private String ingredientName;
+        private long listId;
+    }
+    
 }

@@ -23,12 +23,12 @@ export class RecipeComponent {
     this.kitchenComponent.openRecipeDetailsModal(this.recipe);
   }
 
-  async addItemToList(ingredientName: string) {
+  async addItemToList(ingredientName: string, listId: number) {
     if (!this.groceryList || !this.groceryService.getGroceryLists()) {
       await lastValueFrom(this.groceryService.addGroceryList("My list"));
-      await lastValueFrom(this.groceryService.addToGroceryList(ingredientName));
+      await lastValueFrom(this.groceryService.addToGroceryList(ingredientName, listId));
     } else if (!this.groceryList.groceryListIngredients.includes(ingredientName)) {
-      await lastValueFrom(this.groceryService.addToGroceryList(ingredientName));
+      await lastValueFrom(this.groceryService.addToGroceryList(ingredientName, listId));
     }
   }
 }

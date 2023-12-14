@@ -17,4 +17,9 @@ export class GroceryListComponent {
     firstValueFrom(this.groceryService.deleteGroceryList(listId))
     this.groceryService.setupGroceryLists();
   }
+  
+  removeItemFromList(ingredientName: string, listId = this.groceryList.groceryListId) {
+    firstValueFrom(this.groceryService.removeFromGroceryList(ingredientName, listId));
+    this.groceryService.setupGroceryLists();
+  }
 }
