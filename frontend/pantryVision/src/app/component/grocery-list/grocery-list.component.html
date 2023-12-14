@@ -7,7 +7,7 @@
       <ul class="card-body">
         <li *ngFor="let ingredient of groceryList.groceryListIngredients.split(',')"
         >{{ ingredient }}<button mat-raised-button color="warn" class="groceryRemoveButton"
-        onclick="console.log('Bye')">-</button>
+        (click)="removeItemFromList(ingredient)">-</button>
       </li>
     </ul>
   </ng-template>

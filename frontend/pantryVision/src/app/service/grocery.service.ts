@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, firstValueFrom } from 'rxjs';
 import { GroceryList } from '../model/groceryList';
@@ -29,8 +29,16 @@ export class GroceryService {
     return this.httpClient.delete(`/api/groceryList/delete.do?groceryListId=${groceryListId}`);
   }
 
-  addToGroceryList(ingredientName: string): Observable<any> {
-    return this.httpClient.put("/api/groceryList/addItem.do", ingredientName);
+  addToGroceryList(ingredientName: string, listId: number): Observable<any> {
+    const data = JSON.stringify({"ingredientName": ingredientName, "listId": listId});
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.httpClient.put("/api/groceryList/addItem.do", data, { headers });
+  }
+  
+  removeFromGroceryList(ingredientName: string, listId: number): Observable<any> {
+    const data = JSON.stringify({"ingredientName": ingredientName, "listId": listId});
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.httpClient.put("/api/groceryList/removeItem.do", data, { headers });
   }
   
   async setupGroceryLists() {

@@ -65,6 +65,7 @@ import { MatDividerModule } from '@angular/material/divider';
           "/api/groceryList/getAll.do",
           "/api/groceryList/add.do",
           "/api/groceryList/delete.do",
+          "/api/groceryList/removeItem.do",
           "/api/groceryList/addItem.do"
         ]
       }
