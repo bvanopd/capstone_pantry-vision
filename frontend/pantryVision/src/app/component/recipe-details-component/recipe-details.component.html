@@ -8,21 +8,21 @@
     </li>
   </ul>
   <h3 class="missingIngredients" *ngIf="data.recipe.missedIngredients.length > 0">Missing Ingredients:</h3>
-  <ul *ngIf="data.recipe.missedIngredients.length > 0">
-  <h3 class="missingIngredients">Missing Ingredients:</h3>
   <label for="groceryListSelect">Selected Grocery List:</label>
-  <select id="groceryListSelect" [formControl]="selectedGroceryListId" (change)="changeSelectedGroceryList(selectedGroceryListId.value || groceryLists[0].groceryListId)">
+  <select id="groceryListSelect" [formControl]="selectedGroceryListId"
+          (change)="changeSelectedGroceryList(selectedGroceryListId.value || groceryLists[0].groceryListId)">
     <option *ngFor="let list of groceryLists" [value]="list.groceryListId">{{ list.groceryListTitle }}</option>
   </select>
-  <ul>
+  <ul *ngIf="data.recipe.missedIngredients.length > 0">
     <li *ngFor="let ingredient of data.recipe.missedIngredients">
       <div class="ingredient-container">
-        <div class = "ingredientName">
-        {{ ingredient }}
+        <div class="ingredientName">
+          {{ ingredient }}
         </div>
-        <div class="ingredientAddButtonContainer"*ngIf="!isIngredientInList(ingredient)">
+        <div class="ingredientAddButtonContainer" *ngIf="!isIngredientInList(ingredient)">
           <button mat-raised-button color="primary"
-                  (click)="addIngredientToGroceryList(ingredient)">add to Grocery List</button>
+                  (click)="addIngredientToGroceryList(ingredient)">add to Grocery List
+          </button>
         </div>
       </div>
     </li>
