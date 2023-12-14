@@ -97,8 +97,10 @@ export class KitchenComponent {
           let savedRecipeObj = await firstValueFrom(this.savedRecipeService.loadSavedRecipes());
           if(savedRecipeObj.recipes !== "[]") {
             savedRecipeObj.recipes.split(",").forEach((recipeStr: string) => {
-              const item = recipeStr.split("%");
-              savedRecipesFromDb.push(new SavedRecipe(Number(item[0]), item[1]));
+              if(recipeStr !== "null") {
+                const item = recipeStr.split("%");
+                savedRecipesFromDb.push(new SavedRecipe(Number(item[0]), item[1]));
+              }
             });
           } 
           this.savedRecipeService.setSavedRecipes(savedRecipesFromDb);
