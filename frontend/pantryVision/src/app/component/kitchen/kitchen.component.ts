@@ -59,8 +59,10 @@ export class KitchenComponent {
   userId: number;
 
   availableIngredients: string[];
-  groceryLists: GroceryList[];
   grocerySub: Subscription;
+
+  groceryLists = this.groceryService.groceryLists;
+  MAX_LISTS = this.groceryService.MAX_LISTS;
 
   subscriptions: Subscription[] = [];
 
@@ -70,14 +72,17 @@ export class KitchenComponent {
     this.savedRecipeSub = this.savedRecipeService.currentSavedRecipeList.subscribe(savedRecipes => this.savedRecipes = savedRecipes);
     this.subscriptions.push(this.savedRecipeSub);
     this.initializeAvailableIngredients();
-    this.setupGroceryLists();
+
+    setInterval(async () => {
+      if (this.groceryService.groceryLists == undefined || this.groceryLists == undefined || this.groceryLists.length != this.groceryService.groceryLists.length) {
+        await this.setupGroceryLists();
+      }
+    }, 3000);
   }
 
   async setupGroceryLists() {
-    this.grocerySub = this.groceryService.getGroceryLists().subscribe((data: GroceryList[]) => {
-      this.groceryLists = data.map(list => GroceryList.fromDataObject(list))
-    })
-    this.subscriptions.push(this.grocerySub);
+    await this.groceryService.setupGroceryLists();
+    this.groceryLists = this.groceryService.groceryLists;
     await this.authorizeAndLoad();
   }
 

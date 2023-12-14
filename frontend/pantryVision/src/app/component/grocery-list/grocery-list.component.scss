@@ -2,6 +2,14 @@
   margin: .5rem
 }
 
+button.groceryListRemoveButton {
+  padding: .4rem .2rem;
+  min-width: 4.8rem;
+  font-size: small;
+  float: right;
+  display: inline;
+}
+
 button.groceryRemoveButton {
   height: 1.5rem;
   margin-left: .4rem;

@@ -17,18 +17,22 @@
     </mat-tab>
     <mat-tab *ngIf="user$ | async as user" label="Grocery Lists" (click)="setupGroceryLists()">
       <br><br>
-      <div>
-        <input #box placeholder="new list" />
-        <button mat-raised-button color="primary" (click)="createGroceryList(box.value)">Create a list?</button>
+      <div class="mx-2 my-2">
+        <ng-container *ngIf="!groceryLists || groceryLists.length <= this.MAX_LISTS">
+          <input #box placeholder="new list" />
+          <button mat-raised-button class="groceryManageButton" color="primary" (click)="createGroceryList(box.value)">Create a list?</button>
+        </ng-container>
+        <button mat-stroked-button class="groceryManageButton groceryRefreshButton" color="primary" (click)="setupGroceryLists()">refresh lists</button>
       </div>
-      <ng-template *ngIf="!groceryLists || groceryLists.length < 1; else userHasLists">
-        <p style="text-align: center;">You have no grocery lists.</p>
-      </ng-template>
+      <ng-container *ngIf="!groceryLists || groceryLists.length < 1; else userHasLists">
+        <p style="text-align: center;">No grocery lists loaded...</p>
+      </ng-container>
       <ng-template #userHasLists>
         <div class="groceryListContainer">
           <div *ngFor="let list of groceryLists">
             <app-grocery-list [groceryList]="list"></app-grocery-list>
           </div>
+          <br><br><br><br><br><br>
         </div>
       </ng-template>
     </mat-tab>
