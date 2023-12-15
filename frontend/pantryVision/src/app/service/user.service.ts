@@ -22,7 +22,7 @@ export class UserService {
       .pipe(catchError((error) => { return error; })
     );
   }
-  getPrivate(): Observable<string> {
-    return this.httpClient.get<string>("/api/private");
+  getUserId(): Observable<any> {
+    return this.httpClient.get<string>("/api/user/getUserId.do");
   }
 }

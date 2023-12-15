@@ -1,0 +1,27 @@
+<div id="recipeDetailContainer">
+  <h2>{{ data.recipe.title }}</h2>
+  <img [src]="data.recipe.image" alt="{{ data.recipe.title }}">
+  <h3>Ingredients:</h3>
+  <ul>
+    <li *ngFor="let ingredient of data.details.extendedIngredients">
+      {{ ingredient.name }}
+    </li>
+  </ul>
+  <h3 class="missingIngredients" *ngIf="data.recipe.missedIngredients.length > 0">Missing Ingredients:</h3>
+  <ul *ngIf="data.recipe.missedIngredients.length > 0">
+    <div *ngFor="let ingredient of data.recipe.missedIngredients">
+      <li>
+        {{ ingredient }}
+        <button mat-stroked-button color="primary" class="addToGroceryListButton" (click)="selectList(ingredient)">+ grocery list</button>
+      </li>
+      <div *ngIf="chooseGroceryList">
+        <app-list-selector-dialog></app-list-selector-dialog>
+      </div>
+    </div>
+  </ul>
+  <h3>Instructions:</h3>
+  <div [innerHTML]="data.details.instructions"></div> 
+  <button *ngIf="!data.isSaved" mat-raised-button color="accent" (click)="save()">Save</button>
+  <button *ngIf="data.isSaved" mat-raised-button color="accent" (click)="unsave()">Unsave</button>
+  <button mat-raised-button color="primary" (click)="onClose()">Close</button>
+</div>

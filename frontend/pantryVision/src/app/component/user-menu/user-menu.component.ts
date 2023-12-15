@@ -7,10 +7,11 @@ import { AuthService } from '@auth0/auth0-angular';
   styleUrls: ['./user-menu.component.scss']
 })
 export class UserMenuComponent {
-  constructor(private auth: AuthService) {}
+
   authenticated: boolean;
   isLoading: boolean;
   user$ = this.auth.user$;
+  constructor(private auth: AuthService) {}
 
   ngOnInit(): void {
     const loadingSub = this.auth.isLoading$.subscribe(loading => {

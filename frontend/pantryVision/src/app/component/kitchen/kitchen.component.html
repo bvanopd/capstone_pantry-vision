@@ -1,29 +1,63 @@
 <div id="kitchen">
   <h2 id="myPantry">My Kitchen</h2>
-  <mat-tab-group preserveContent="true" animationDuration="0ms">
+  <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="100" style="margin:4em auto;"></mat-progress-spinner>
+  <mat-tab-group *ngIf="!isLoading" preserveContent="true" animationDuration="0ms">
     <mat-tab label="Recipes">
       <br><br>
-      <p style="text-align: center;">Recipe sneak peak -- Stay tuned for more details!</p>
-<!--      <button mat-raised-button color="primary" (click)="testRecipe()">Test Recipe</button>-->
-      <button mat-raised-button color="primary" (click)="getRecipes()">Find Recipes!</button>
+      <p style="text-align: center;">List of Recipes based on your Pantry. Click on a Recipe to view details.</p>
+      <p *ngIf="pantry.listOfAvailableIngredients.length < 1" style="text-align: center;">Please add pantry items to find recipes.</p>
+      <button *ngIf="pantry.listOfAvailableIngredients.length > 1" mat-raised-button color="primary" (click)="getRecipes()">Find Recipes!</button>
       <div id="recipeContainer">
-        <app-recipe *ngFor="let recipe of recipes" [recipe]="recipe"></app-recipe>
+        <app-recipe *ngFor="let recipe of recipes | slice: 0:recipesToShow" [recipe]="recipe"></app-recipe>
+        <div class="break"></div> <!-- Flexbox line break -->
+        <button *ngIf="recipes && recipesToShow >= 5 && recipes.length >= 5" (click)="toggleRecipesToShow()">
+          {{ recipesToShow === 5 ? 'Show More...' : 'Show Less...' }}
+        </button>
       </div>
     </mat-tab>
-    <mat-tab label="Grocery Lists">
+    <mat-tab *ngIf="user$ | async as user" label="Grocery Lists" (click)="updateGroceryLists()">
       <br><br>
-      <p style="text-align: center;">We're sorry, this content is not available yet.</p>
+      <div class="mx-2 my-2">
+        <ng-container *ngIf="!groceryLists || groceryLists.length <= this.MAX_LISTS">
+          <input #box placeholder="new list" />
+          <button mat-raised-button class="groceryManageButton" color="primary" (click)="createGroceryList(box.value)">Create a list?</button>
+        </ng-container>
+<!--        <button mat-stroked-button class="groceryManageButton groceryRefreshButton" color="primary" (click)="updateGroceryLists()">refresh lists</button>-->
+      </div>
+      <ng-container *ngIf="!groceryLists || groceryLists.length < 1; else userHasLists">
+        <p style="text-align: center;">No grocery lists loaded...</p>
+      </ng-container>
+      <ng-template #userHasLists>
+        <div class="groceryListContainer">
+          <div *ngFor="let list of groceryLists">
+            <app-grocery-list [groceryList]="list"></app-grocery-list>
+          </div>
+          <br><br><br><br><br><br>
+        </div>
+      </ng-template>
     </mat-tab>
-    <mat-tab label="Pantry Analysis">
+    <mat-tab label="Ingredient List">
       <div class="mx-2 my-2">
         <div class="fw-bold text-uppercase">In stock:</div>
-        <span *ngFor="let ingredient of getAvailableIngredientsArray(); let last=last">{{ingredient.ingredientName}}<ng-container *ngIf="!last">, </ng-container> </span>
+<!--        <span *ngFor="let ingredient of availableIngredients; let last=last">{{ ingredient }}<ng-container *ngIf="!last">, </ng-container> </span>-->
+        <ul>
+          <li *ngFor="let ingredient of getAvailableIngredientsArray(); let last=last">{{ingredient.ingredientName}}<ng-container *ngIf="!last"> </ng-container> </li>
+        </ul>
       </div>
     </mat-tab>
     <mat-tab *ngIf="user$ | async as user" label="Profile">
-      <p style="text-align: center;">Name: {{ user.name }}</p>
-      <p style="text-align: center;">Email: {{ user.email }}</p>
-      <p style="text-align: center;"><b>More profile data coming soon</b></p>
+      <div style="height: 100%;">
+        <p style="text-align: center;">Name: {{ user.name }}</p>
+        <p style="text-align: center;">Email: {{ user.email }}</p>
+
+        <table id="savedRecipesTable">
+          <th><h2>Saved Recipes</h2></th>
+          <tr *ngFor="let savedRecipe of savedRecipes">
+            <td class="savedRecipe" (click)="openSavedRecipe(savedRecipe)">{{ savedRecipe.title }}</td>
+            <td><button mat-raised-button color="accent" (click)="unsaveRecipe(savedRecipe)">Remove</button></td>
+          </tr>
+        </table>
+      </div>
     </mat-tab>
   </mat-tab-group>
 </div>

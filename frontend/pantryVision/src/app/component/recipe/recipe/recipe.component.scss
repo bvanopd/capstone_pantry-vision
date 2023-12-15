@@ -4,8 +4,14 @@
   margin: 10px;
   padding: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column; /* Add this line */
+  justify-content: center; /* Add this line */
 }
 
+.recipeTitle {
+  font-weight: bold;
+}
 .recipe img {
   width: 100px;
   height: auto;
@@ -23,4 +29,21 @@
 
 .recipe li {
   margin-bottom: 5px;
+}
+
+.recipeIngredientInfo {
+  p {
+    margin: auto;
+    text-align: center;
+  }
+}
+
+.recipe:hover {
+  cursor: pointer;
+  background-color: #f8f8fc;
+}
+
+button.groceryAddButton {
+  height: 1.5rem;
+  margin-left: .4rem;
 }

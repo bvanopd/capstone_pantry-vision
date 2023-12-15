@@ -4,6 +4,7 @@
   margin: 2rem 1rem;
   box-shadow: -5px 0 5px lightblue, 5px 0 5px lightblue;
   padding: 5px;
+  overflow-y: hidden;
 }
 
 h2 {
@@ -12,5 +13,67 @@ h2 {
 
 #recipeContainer {
   display: flex;
+  flex-direction: column;
   margin-top: 20px;
+  height: 65vh;
+}
+
+#savedRecipesTable {
+  margin: 0 auto;
+  padding: 1em;
+  width: 100%;
+  border: #242525;
+  border-radius: 1em;
+}
+
+#savedRecipesTable tr,th {
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+}
+
+#savedRecipesTable tr:nth-child(even) {
+  background-color: #bdf1f1;
+}
+
+@media screen and (max-height: 1000px) {
+  #kitchen {
+    height: 83vh;
+  }
+  #recipeContainer {
+    height: 55vh;
+  }
+}
+
+@media screen and (max-height: 800px) {
+  #kitchen {
+    height: 80vh;
+  }
+  #recipeContainer {
+    height: 50vh;
+  }
+}
+
+@media screen and (max-height: 650px) {
+  #kitchen {
+    height: 75vh;
+  }
+  #recipeContainer {
+    height: 40vh;
+  }
+}
+
+.groceryListContainer {
+  overflow-y: auto;
+  max-height: 65vh;
+}
+
+.groceryManageSpace {
+  overflow: none;
+}
+button.groceryManageButton {
+  margin-left: .4rem;
+  margin-right: .4rem;
+}
+button.groceryRefreshButton {
+  float: right;
 }
