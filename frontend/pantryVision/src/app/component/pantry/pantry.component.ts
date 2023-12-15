@@ -17,19 +17,16 @@ export class PantryComponent {
 
   public pantry: Pantry;
   pantrySub: Subscription;
-
-  constructor(private ingredientService: IngredientService, 
-              private userService: UserService, 
-              private pantryService: PantryService, 
-              private auth: AuthService) {}
-
   pantryUpdated: boolean = true;
   scheduleUpdate: boolean;
-
   isLoading: boolean = true;
   authenticated: boolean;
-
   readonly INGREDIENTS_TO_SHOW: number = 12;
+
+  constructor(private ingredientService: IngredientService,
+              private userService: UserService,
+              private pantryService: PantryService,
+              private auth: AuthService) {}
 
   ngOnInit() {
     this.initializePantry();

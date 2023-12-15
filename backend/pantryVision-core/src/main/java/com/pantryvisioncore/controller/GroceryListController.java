@@ -4,6 +4,7 @@ import com.pantryvisioncore.model.GroceryList;
 import com.pantryvisioncore.model.User;
 import com.pantryvisioncore.repository.GroceryListRepository;
 import com.pantryvisioncore.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -31,13 +32,14 @@ public class GroceryListController {
         groceryListRepository.save(groceryList);
         return ResponseEntity.ok("{\"message\": \"Grocery list added successfully\"}");
     }
-    
-    // Delete a grocery list BY id
-    @DeleteMapping("/groceryList/delete.do")    
-    public ResponseEntity<String> deleteByGroceryListId(@RequestParam Long groceryListId) {
-        groceryListRepository.deleteById(groceryListId);
-        return ResponseEntity.ok("{\"message\": \"Grocery list deleted successfully\"}");
-    }
+
+@Transactional
+@PutMapping("/groceryList/delete.do")
+public ResponseEntity<String> removeGroceryList(@AuthenticationPrincipal Jwt jwt, @RequestBody Long groceryListId) {
+    User user = userRepository.findByUserName(jwt.getSubject());
+    groceryListRepository.deleteByIdAndUserId(user.getId(), groceryListId);
+    return ResponseEntity.ok("{\"message\": \"Grocery list removed successfully\"}");
+}
 
     // Add item to user grocery list
     @PutMapping("/groceryList/addItem.do")
@@ -52,7 +54,8 @@ public class GroceryListController {
     @PutMapping("/groceryList/removeItem.do")
     public ResponseEntity<String> removeItemFromGroceryList(@RequestBody GroceryListEditor requestData) {
         GroceryList groceryList = groceryListRepository.findByGroceryListId(requestData.listId);
-        groceryList.popFromIngredientList(requestData.ingredientName);
+        String ingredientName = requestData.ingredientName;
+        groceryList.removeIngredientFromList(ingredientName);
         groceryListRepository.save(groceryList);
         return ResponseEntity.ok("{\"message\": \"Item successfully removed from grocery list\"}");
     }

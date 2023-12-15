@@ -2,6 +2,10 @@ package com.pantryvisioncore.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @Entity
 @Table(name = "grocery_list")
 public class GroceryList {
@@ -56,26 +60,19 @@ public class GroceryList {
     }
 
     public void pushToIngredientList(String ingredientName) {
-        if (this.groceryListIngredients == "" || this.groceryListIngredients == null) {
+        if (this.groceryListIngredients == null || this.groceryListIngredients.isEmpty()) {
             this.groceryListIngredients = ingredientName;
         } else {
             this.groceryListIngredients += "," + ingredientName;
         }
     }
-
-    public void popFromIngredientList(String ingredientName) {
-        String str = this.groceryListIngredients;
-        int index = str.indexOf(ingredientName);
-
-        // remove word and leading comma if there is one
-        if (index != -1) {
-            if (index > 0 && str.charAt(index - 1) == ',') {
-                str = str.substring(0, index - 1) + str.substring(index + ingredientName.length());
-            } else {
-                str = str.substring(0, index) + str.substring(index + ingredientName.length());
-            }
-        }
-        this.groceryListIngredients = str;
+public void removeIngredientFromList(String ingredientName) {
+    if (this.groceryListIngredients != null && this.groceryListIngredients.contains(ingredientName)) {
+        String[] ingredients = this.groceryListIngredients.split(",");
+        List<String> ingredientList = new ArrayList<>(Arrays.asList(ingredients));
+        ingredientList.remove(ingredientName);
+        this.groceryListIngredients = String.join(",", ingredientList);
     }
+}
 
 }

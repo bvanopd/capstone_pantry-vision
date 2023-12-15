@@ -11,16 +11,23 @@ import { firstValueFrom } from 'rxjs';
 })
 export class ListSelectorDialogComponent {
 
+  groceryLists: GroceryList[];
+
   constructor(
-    private groceryService: GroceryService, 
+    private groceryService: GroceryService,
     public dialog: MatDialogRef<ListSelectorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: string,
   ) {}
 
-  groceryLists = this.groceryService.groceryLists;
+  async ngOnInit() {
+      this.groceryService.groceryLists$.subscribe(groceryLists => {
+        this.groceryLists = groceryLists;
+      });
+  }
 
   async selectedList(list: GroceryList) {
-    await firstValueFrom(this.groceryService.addToGroceryList(this.data, list.groceryListId))
+    await firstValueFrom(this.groceryService.addToGroceryList(this.data, list.groceryListId));
+    await this.groceryService.updateGroceryLists();
     this.dialog.close();
   }
 }

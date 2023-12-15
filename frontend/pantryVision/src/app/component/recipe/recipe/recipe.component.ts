@@ -16,21 +16,10 @@ export class RecipeComponent {
   @Input() groceryList: GroceryList;
 
   constructor(
-    private kitchenComponent: KitchenComponent,
-    private groceryService: GroceryService) {}
+    private kitchenComponent: KitchenComponent) {}
 
   onRecipeClick(): void {
     this.kitchenComponent.openRecipeDetailsModal(this.recipe);
   }
 
-  async addItemToList(ingredientName: string, listId: number) {
-    if (!this.groceryList || !this.groceryService.getGroceryLists()) {
-      await lastValueFrom(this.groceryService.addGroceryList("My list"));
-      await lastValueFrom(this.groceryService.addToGroceryList(ingredientName, listId));
-    } else if (!this.groceryList.groceryListIngredients.includes(ingredientName)) {
-      await lastValueFrom(this.groceryService.addToGroceryList(ingredientName, listId));
-    }
-  }
-
-  
 }

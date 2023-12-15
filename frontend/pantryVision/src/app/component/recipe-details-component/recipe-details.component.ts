@@ -13,6 +13,9 @@ import { GroceryList } from 'src/app/model/groceryList';
 })
 export class RecipeDetailsComponent {
 
+  groceryLists: GroceryList[];
+  chooseGroceryList = false;
+
   constructor(
     private savedRecipeService: SavedRecipeService,
     private groceryService: GroceryService,
@@ -22,13 +25,18 @@ export class RecipeDetailsComponent {
     @Inject(MAT_DIALOG_DATA) public list: GroceryList
   ) { }
 
-  groceryLists = this.groceryService.groceryLists;
   onClose(): void {
     this.dialogRef.close();
   }
 
-  chooseGroceryList = false;
-  
+  async ngOnInit() {
+    this.groceryService.groceryLists$.subscribe((data: any[]) => {
+      this.groceryLists = data;
+    });
+  }
+
+
+
   selectList(ingredientName: string): void {
     this.dialog.open(ListSelectorDialogComponent, {
       width: '350px',

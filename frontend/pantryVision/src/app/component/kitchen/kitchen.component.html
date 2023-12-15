@@ -15,14 +15,14 @@
         </button>
       </div>
     </mat-tab>
-    <mat-tab *ngIf="user$ | async as user" label="Grocery Lists" (click)="setupGroceryLists()">
+    <mat-tab *ngIf="user$ | async as user" label="Grocery Lists" (click)="updateGroceryLists()">
       <br><br>
       <div class="mx-2 my-2">
         <ng-container *ngIf="!groceryLists || groceryLists.length <= this.MAX_LISTS">
           <input #box placeholder="new list" />
           <button mat-raised-button class="groceryManageButton" color="primary" (click)="createGroceryList(box.value)">Create a list?</button>
         </ng-container>
-        <button mat-stroked-button class="groceryManageButton groceryRefreshButton" color="primary" (click)="setupGroceryLists()">refresh lists</button>
+<!--        <button mat-stroked-button class="groceryManageButton groceryRefreshButton" color="primary" (click)="updateGroceryLists()">refresh lists</button>-->
       </div>
       <ng-container *ngIf="!groceryLists || groceryLists.length < 1; else userHasLists">
         <p style="text-align: center;">No grocery lists loaded...</p>
@@ -39,14 +39,17 @@
     <mat-tab label="Ingredient List">
       <div class="mx-2 my-2">
         <div class="fw-bold text-uppercase">In stock:</div>
-        <span *ngFor="let ingredient of availableIngredients; let last=last">{{ ingredient }}<ng-container *ngIf="!last">, </ng-container> </span>
+<!--        <span *ngFor="let ingredient of availableIngredients; let last=last">{{ ingredient }}<ng-container *ngIf="!last">, </ng-container> </span>-->
+        <ul>
+          <li *ngFor="let ingredient of getAvailableIngredientsArray(); let last=last">{{ingredient.ingredientName}}<ng-container *ngIf="!last"> </ng-container> </li>
+        </ul>
       </div>
     </mat-tab>
     <mat-tab *ngIf="user$ | async as user" label="Profile">
       <div style="height: 100%;">
         <p style="text-align: center;">Name: {{ user.name }}</p>
         <p style="text-align: center;">Email: {{ user.email }}</p>
-          
+
         <table id="savedRecipesTable">
           <th><h2>Saved Recipes</h2></th>
           <tr *ngFor="let savedRecipe of savedRecipes">
