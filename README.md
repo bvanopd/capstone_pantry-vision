@@ -3,7 +3,7 @@
 
 This is the repository for Pantry Vision, an application that helps you manage your pantry. It is in its proof of concept stage, and is currently only set up to validate the technology stack. It is the capstone project for the three developers [bvanopd](https://github.com/bvanopd), [bojerg](https://github.com/bojerg), and [MorganKruger](https://github.com/MorganKruger). The project is composed of an Angular front end application supported by a Spring Boot back end, which is connected to a MYSQL database.
 
-Pantry Vision is a web application which tracks users' available ingredients in order to suggest recipes, common missing ingredients which they might consider picking up on their next grocery trip, and insights into ways they could enrich their families’ nutrition based on the ingredients they typically have at hand. The best part about showing users which ingredients they might consider buying is that, in turn, we can show them what exciting new recipes they could be making! We can provide a pragmatic way to build grocery lists which both enhance nutrition and inspire delicious, unique family meals.
+Pantry Vision is a web application which tracks users' available ingredients in order to suggest recipes and common missing ingredients which they might consider picking up on their next grocery trip. The best part about showing users which ingredients they might consider buying is that, in turn, we can show them what exciting new recipes they could be making! We can provide a pragmatic way to build grocery lists which both enhance nutrition and inspire delicious, unique family meals.
 
 ## Installation
 
@@ -39,6 +39,6 @@ After these tools have been installed, make sure they are added to your Path env
 
 ### Start up the front end
 - Navigate to the */frontend/pantryVision/* directory and ensure front end dependencies are installed by running ```npm install```
-- Start the front end by running ```npm start```
+- Start the front end by running ```npm run start```
   - The ```npm start``` script is configured to fire up a local development server for Angular with a proxy to allow cross-origin resource sharing. Essentially it redirects HTTP requests to trick Angular into thinking it's on the same domain as the back end.
 - The application should be running now at ```http://localhost:4200/```
