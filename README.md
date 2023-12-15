@@ -25,7 +25,7 @@ After these tools have been installed, make sure they are added to your Path env
 ### Set up the local database
 - Access your local MySQL server, either through a terminal or a tool like MYSQL Workbench
 - Create the Pantry Vision database ```CREATE DATABASE pantry_db;```
-- NOTE the back end data connection is set up to connect to mysql with the user 'root' and a password of 'password', if this is not your setup, either change the root password or edit the application.properties and application-dev.properties files in the Spring Boot project. **TODO add these to gitignore?**
+- NOTE the back end data connection is set up to connect to mysql with the user 'root' and a password of 'password', if this is not your setup, either change the root password or edit the application.properties and application-dev.properties files in the Spring Boot project.
 - NOTE Make sure your MYSQL80 service is running. Sometimes this can fail to start up on system restart.
 
 ### Start up the back end
